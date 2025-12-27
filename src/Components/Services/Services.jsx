@@ -4,9 +4,12 @@ import { ArrowRight } from 'lucide-react';
 
 const Services = () => {
     return (
-       <div className=' w-full h-full flex flex-wrap bg-amber-200 gap-x-0 gap-y-4 px-15 py-10 grid grid-cols-3 '>
-          <p className='text-3xl font-extrabold mt-20 text-amber-900'>Our Services <ArrowRight /></p> 
-          
+       <div className=' w-full h-full flex flex-wrap mt-20  bg-amber-200 gap-x-0 gap-y-4 px-15 py-10 grid grid-cols-3 '>
+          <div>
+          <p className='text-2xl font-extrabold mt-20  text-amber-900'>Our Services <ArrowRight /></p> 
+          <p className='text-1xl font-bold text-amber-900'>We are always concern to hand over a customer's preferred product with a satisfying finishing. </p>
+          </div>
+         
 
           <div class="book ">
     <p className='text-gray gap-3 '>Standard apparel manufacturing workflow</p>
