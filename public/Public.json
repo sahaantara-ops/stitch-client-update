@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "customerName": "Rahim Uddin",
+    "customerImage": "https://randomuser.me/api/portraits/men/32.jpg",
+    "rating": 5,
+    "comment": "This system helped us track garment orders accurately and reduced delivery delays. Very easy to use!"
+  },
+  {
+    "id": 2,
+    "customerName": "Nusrat Jahan",
+    "customerImage": "https://randomuser.me/api/portraits/women/44.jpg",
+    "rating": 4,
+    "comment": "Production tracking from cutting to finishing is smooth. Inventory updates are really helpful."
+  },
+  {
+    "id": 3,
+    "customerName": "Arif Hossain",
+    "customerImage": "https://randomuser.me/api/portraits/men/65.jpg",
+    "rating": 5,
+    "comment": "Our factory efficiency improved a lot after using this platform. Highly recommended for small factories."
+  },
+  {
+    "id": 4,
+    "customerName": "Mehedi Hasan",
+    "customerImage": "https://randomuser.me/api/portraits/men/71.jpg",
+    "rating": 4,
+    "comment": "Order management is very clear and well-organized. Buyer communication became much easier."
+  },
+  {
+    "id": 5,
+    "customerName": "Sadia Akter",
+    "customerImage": "https://randomuser.me/api/portraits/women/68.jpg",
+    "rating": 5,
+    "comment": "The dashboard gives a complete overview of production status. Saves a lot of time."
+  }
+]
