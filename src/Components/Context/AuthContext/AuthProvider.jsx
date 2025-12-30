@@ -1,0 +1,30 @@
+import React from 'react';
+import { AuthContext } from './AuthContext';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../Firebase/Firebase.init';
+
+
+const authProvider = ({children}) => {
+
+   const registerUser = (email,password)=>{
+    return createUserWithEmailAndPassword(auth,email, password)
+   }
+   const signinUser =(email, password)=>{
+    return createUserWithEmailAndPassword(auth,email, password)
+   }
+
+
+    const authInfo = {
+        registerUser,
+         signinUser
+
+
+    }
+    return (
+      <AuthContext value={authInfo}>
+        {children}
+      </AuthContext>
+    );
+};
+
+export default authProvider;
