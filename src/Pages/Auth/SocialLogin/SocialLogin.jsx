@@ -1,5 +1,5 @@
 import React from 'react';
-import UseAuth from '../../../Components/Hooks/UseAuth';
+import UseAuth from '../../../Components/Hooks/useAuth';
 
 const SocialLogin = () => {
 

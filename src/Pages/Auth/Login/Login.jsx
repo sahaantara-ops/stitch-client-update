@@ -1,7 +1,7 @@
 import React from 'react';
 import image from '../../../assets/login object.jpg'
 import { useForm } from 'react-hook-form';
-import UseAuth from '../../../Components/Hooks/UseAuth';
+import UseAuth from '../../../Components/Hooks/useAuth';
 import { Link } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 const Login = () => {
