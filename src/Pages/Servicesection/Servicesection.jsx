@@ -1,11 +1,13 @@
 import React from 'react';
 import febrics from '../../assets/febrics.jpg';
 import Navbar from '../Shared/Navbar/Navbar';
+import ServiceCard from './ServiceCard';
+
 
 const ServicesSection = () => {
   return (
     
-    <section className="relative  bg-gray-50 py-4">
+    <section className="relative h-400 bg-gray-50 py-4">
       
        <Navbar></Navbar>
       
@@ -46,7 +48,7 @@ const ServicesSection = () => {
       </div>
 
       {/* STATS CARD */}
-      <div className="absolute left-1/2 -bottom-12 transform -translate-x-1/2 bg-white shadow-xl rounded-xl w-[90%] max-w-4xl">
+      <div className="absolute left-1/2 -bottom-6 transform -translate-x-1/2 bg-white shadow-xl rounded-xl w-[90%] max-w-4xl">
         <div className="grid grid-cols-3 text-center py-6">
 
           <div>
@@ -63,10 +65,23 @@ const ServicesSection = () => {
             <h3 className="text-3xl font-bold text-indigo-600">4.7+</h3>
             <p className="text-gray-500 text-sm">Review Customer</p>
           </div>
+          
 
         </div>
       </div>
+
+      <section  className="relative min-h-[75vh] flex items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage:
+          "url('https://tse1.explicit.bing.net/th/id/OIP.lQkDJpKT34svC4fKksMHqQHaHa?rs=1&pid=ImgDetMain&o=7&rm=3')",
+      }} >
+        <h3 className='text-2xl font-bold text-green-900 py-4 text-center  '>What we focus</h3>
+         
+            <ServiceCard></ServiceCard>
+          </section>
+      
     </section>
+    
   );
 };
 
