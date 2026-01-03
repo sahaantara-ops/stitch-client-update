@@ -2,11 +2,13 @@ import React from 'react';
 import febrics from '../../assets/febrics.jpg';
 import Navbar from '../Shared/Navbar/Navbar';
 import ServiceCard from './ServiceCard';
+import Container from '../Shared/Container/Container';
+
 
 
 const ServicesSection = () => {
   return (
-    
+    <Container>
     <section className="relative h-400 bg-gray-50 py-4">
       
        <Navbar></Navbar>
@@ -81,6 +83,7 @@ const ServicesSection = () => {
           </section>
       
     </section>
+    </Container>
     
   );
 };

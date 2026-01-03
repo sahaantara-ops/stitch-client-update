@@ -6,37 +6,58 @@ import AuthLayout from "../Layouts/AuthLayout";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
 import ServicesSection from "../Pages/Servicesection/Servicesection";
+import ErrorPage from "../Pages/Errorpage/Errorpage";
+import DashBoard from '../Pages/DashBoard/DashBoard';
+
+import NewOrder from "../Pages/NewOrder/NewOrder";
+import PrivateRoutes from './PrivateRoutes'
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component:RootLayout,
+    element: <RootLayout />,
+    errorElement: <ErrorPage />,
     children:[
       {
         index:true,
-        Component:Home,
+        element: <Home />,
 
       }
     ]
   },
   {
     path:"/",
-    Component:AuthLayout,
+   
+    element:<AuthLayout/>,
     children:[
       {
         path:'login',
-        Component:Login,
+        
+        element:<Login/>,
 
       },
       {
         path:'Register',
-        Component:Register,
+        
+        element:<Register/>,
       }
     ]
   },
   {
     path:"/servicesection",
-    Component:ServicesSection,
+   
+    element:<ServicesSection/>,
+  },
+  {
+    path:"/dashboard",
+    element:<DashBoard/>,
+    
+  },
+  {
+    path:"/neworder",
+    element:  <PrivateRoutes>
+      <NewOrder/>
+    </PrivateRoutes>,
   }
 
 ]);

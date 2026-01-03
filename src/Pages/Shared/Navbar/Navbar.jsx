@@ -20,6 +20,7 @@ console.log("Navbar loading:", loading);
   const Links= <>
         <li><NavLink to=''>Products</NavLink></li>
         <li><NavLink to="/servicesection">Services</NavLink></li>
+        <li><NavLink to="/neworder">New Order</NavLink></li>
   
   </>
     return (

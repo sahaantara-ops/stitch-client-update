@@ -2,11 +2,18 @@ import React from 'react';
 import image from '../../../assets/login object.jpg'
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../Components/Hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, Navigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
+import { useLocation } from 'react-router';
+
 const Login = () => {
   const {register,handleSubmit, formState:{errors}} = useForm();
-  const{signInUser} = UseAuth();
+  const{signInUser,user} = UseAuth();
+  
+  const location = useLocation();
+
+  const from = location.state || '/'
+  if (user) return <Navigate to={from} replace={true}></Navigate>
 
   const handleLogin =(data)=>{
     console.log('form data',data);
@@ -30,6 +37,7 @@ const Login = () => {
     </div>
     <div className="card  h-110 bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <form className="card-body" onSubmit={handleSubmit(handleLogin)}>
+        
         <fieldset className="fieldset">
           <label className="label">Email</label>
           <input type="email" {...register('email', {required:true})} className="input" placeholder="Email" />

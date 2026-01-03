@@ -2,14 +2,19 @@ import React from 'react';
 import image from '../../../assets/Register.jpg'
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../Components/Hooks/useAuth';
-import { Link } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
 
 const Register = () => {
 
     const{register,handleSubmit, formState:{errors}} = useForm();
-    const{registerUser,updateUserProfile} = UseAuth()
+    const{registerUser,updateUserProfile,user} = UseAuth()
+
+      const location = useLocation();
+
+  const from = location.state || '/'
+  if (user) return <Navigate to={from} replace={true}></Navigate>
 
     const handleRegistration = (data)=>{
         console.log('after register',data.photo[0]);
@@ -29,6 +34,7 @@ const Register = () => {
               photoURL : res.data.data.url
 
             }
+            console.log(userProfile)
             updateUserProfile(userProfile)
             .then(()=>{
               console.log('user profile updated successfully')
