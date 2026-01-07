@@ -11,6 +11,8 @@ import DashBoard from '../Pages/DashBoard/DashBoard';
 
 import NewOrder from "../Pages/NewOrder/NewOrder";
 import PrivateRoutes from './PrivateRoutes'
+import AllProducts from "../Pages/AllProducts/AllProducts";
+import AllProductsLayout from "../Layouts/AllProductsLayout";
 
 export const router = createBrowserRouter([
   {
@@ -51,8 +53,22 @@ export const router = createBrowserRouter([
   {
     path:"/dashboard",
     element:<DashBoard/>,
-    
   },
+  {
+    path:"/",
+    element:<AllProductsLayout/>,
+    children:[
+      {
+          path:"/allproducts",
+    element:<AllProducts/>,
+    loader: ()=> fetch("http://localhost:5000/products")
+      }
+    ]
+  },
+    
+  
+    
+  
   {
     path:"/neworder",
     element:  <PrivateRoutes>

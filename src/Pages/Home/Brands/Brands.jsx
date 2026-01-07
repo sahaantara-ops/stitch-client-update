@@ -15,12 +15,12 @@ const Brands = () => {
       <Swiper
         slidesPerView={4}
         centeredSlides={true}
-        spaceBetween={10}
+        spaceBetween={7}
         grabCursor={true}
         loop={true}
         modules={[Autoplay]}
         autoplay={{
-            delay:2500,
+            delay:500,
             disableOnInteraction:false,
         }}
       >

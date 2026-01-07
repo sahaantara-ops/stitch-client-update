@@ -4,7 +4,7 @@ const DashBoard = () => {
     return (
         <div>
             <ul>
-             <li  to=''>Seller</li>
+             <li  to='/allproducts'>Seller</li>
              <li></li>
             </ul>
             
