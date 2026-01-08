@@ -14,6 +14,8 @@ dist-ssr
 
 #Secret
 .env
+.env.*
+public/servicekey.json
 
 # Editor directories and files
 .vscode/*
