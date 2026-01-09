@@ -85,6 +85,8 @@ export const router = createBrowserRouter([
     element:  <PrivateRoutes>
       <NewOrder/>
     </PrivateRoutes>,
+
+    loader: ()=> fetch("http://localhost:5000/products")
   }
 
 ]);
