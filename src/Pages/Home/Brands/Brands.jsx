@@ -13,11 +13,11 @@ const brandLogos = [brand1,brand2,brand3,brand4,brand5]
 const Brands = () => {
     return (
       <Swiper
-        slidesPerView={4}
+        slidesPerView={2}
         centeredSlides={true}
         spaceBetween={7}
         grabCursor={true}
-        loop={true}
+        loop={false}
         modules={[Autoplay]}
         autoplay={{
             delay:500,
