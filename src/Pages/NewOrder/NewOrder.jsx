@@ -1,42 +1,91 @@
-import React from 'react';
+import React  from 'react';
 import Navbar from '../Shared/Navbar/Navbar';
 import Footer from '../Shared/Footer/Footer';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import Container from '../Shared/Container/Container';
-import logo from '../../assets/BKash-Logo.png'
-import logo2 from '../../assets/Nagad-Vertical-Logo.wine.png'
-import logo3 from '../../assets/cash-on-delivery.png'
 import { useLoaderData } from 'react-router';
-
+import UseAuth from '../../Components/Hooks/useAuth';
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 
 
 
 const NewOrder = () => {
 
- const model = useLoaderData()
-    console.log(model)
-    const {
-  register,
-  handleSubmit,
-  watch,
-  formState: { errors }
-} = useForm(  {
-  defaultValues: {
-    ProductType: "document"
-  }
-});
+ const model = useLoaderData();
+ console.log(model);
+
+ const navigate = useNavigate();
+
   
-   const quantity = watch("orderQuantity") || model.minimumOrder;
-   const totalPrice = quantity * model.price;
+const { register, handleSubmit, control, formState: { errors } } = useForm();
+const quantity =
+useWatch({ control, name: "orderQuantity" }) || model?.result?.minimumOrder;
+
+const totalPrice = quantity * model?.result?.price;
+console.log(totalPrice);
 
 
- 
-    const handleAddProduct = data =>{
-         
-        console.log("Form Data:",data);
-    }
-    return (
+
+ const handleAddProduct = (data) => {
+  alert()
+  console.log(data);
+}
+const {user} = UseAuth();
+const {_id, productName,productImage,category,price,availableQuantity} = model || {}
+
+const handlePayment = async()=>{
+    if (!price || isNaN(Number(price))) {
+    alert("Invalid product price");
+    return;
+  }
+
+  if (!quantity || Number(quantity) < 1) {
+    alert("Invalid quantity");
+    return;
+  }
+
+  if (!user?.email) {
+    alert("Please login to continue payment");
+    return;
+  }
+
+   const paymentInfo = {
+      _id,
+    productName,
+    product_image: productImage,        
+    category,
+    price: Number(price),               
+    orderQuantity: Number(quantity),    
+    totalPrice: Number(totalPrice),
+      availableQuantity:
+      availableQuantity,
+      customer:{
+        name:user?.displayName,
+        email:user?.email,
+      }
+   }
+   console.log(price);
+   try{
+   const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`, paymentInfo);
+
+   
+
+    // Redirect to Stripe
+    window.location.href = data.url;
+    console.log("Stripe session URL:", data.url);
+  } catch (err) {
+    console.error("Checkout failed:", err.response?.data || err.message);
+    alert("Unable to start checkout. Please try again.");
+  }
+  console.log("Payment info received:", paymentInfo);
+
+};
+
+
+
+    return(
         <Container>
 
        
@@ -46,7 +95,9 @@ const NewOrder = () => {
             </section>
             <div>
              <h2 className='text-2xl font-bold text-amber-950'>Create new order </h2>
-             <form onSubmit={handleSubmit(handleAddProduct)} className='mt-5 p-4 text-black' >
+             <form 
+             onSubmit={handleSubmit(handleAddProduct)}
+             className='mt-5 p-4 text-black' >
                 
             <div>
                   <label className="label">
@@ -69,27 +120,24 @@ const NewOrder = () => {
             <div className='grid grid-cols-3 gap-2'>
               <fieldset className="fieldset">
           <label className="label">Email</label>
-          <input type="email"{...register('Email')} className="input" placeholder="Email" />
+          <input type="email"{...register('email')} className="input" placeholder="Email" />
           </fieldset>
 
            <fieldset className="fieldset">
           <label className="label">Product Name</label> 
-          <input type="email"{...register('ProductName')} className="input" placeholder="Product Name" />
+          <input type="text"{...register('productName')} className="input" placeholder="Product Name" />
           </fieldset>
 
-           <fieldset className="fieldset">
-          <label className="label">Cloth Quality</label>
-          <input type="email"{...register('ClothQuality')} className="input" placeholder="Cloth Quality" />
-          </fieldset>
+          
            
            <fieldset className="fieldset">
           <label className="label">First Name</label>
-          <input type="text"{...register('First Name')} className="input" placeholder="First Name" />
+          <input type="text"{...register('firstName')} className="input" placeholder="First Name" />
           </fieldset>
           
            <fieldset className="fieldset">
           <label className="label">Last Name</label>
-          <input type="text"{...register('Last Name')} className="input" placeholder="Last Name" />
+          <input type="text"{...register('lastName')} className="input" placeholder="Last Name" />
           </fieldset>
            
           
@@ -99,32 +147,25 @@ const NewOrder = () => {
 <label className="form-control w-full">
                     <span className="label-text text-gray-400 w-40">Payment Method</span>
                    <select
-                  {...register("role", { required: true })}
+                  {...register("paymentMethod", { required: true })}
                    className="select select-bordered w-full"
                      >
                 <option value="">Select Method</option>
                 <option value="Bkash" className='flex'>
-                  <img src={logo} className='w-7 h-5'/>
+              
                   Bkash
                   </option>
                 <option value="Nagad" className='flex'>
-                  <img src={logo2} className='w-7 h-5'/>
+                 
                 Nagad
                 </option>
                 <option value="COD" className='flex'>
-                  <img src={logo3} className='w-7 h-5'/>
+                  
                 Cash On Delivery
                 </option>
                </select>
                 </label>
-          <fieldset className="fieldset">
-          <label className="label">Cloth Quality</label>
-          <input type="email"{...register('ClothQuality')} className="input" placeholder="Cloth Quality" />
-          </fieldset>
-           
         
-
-
 <fieldset className="fieldset">
   <label className="label font-semibold">Order Quantity</label>
 
@@ -165,12 +206,12 @@ const NewOrder = () => {
 
  <fieldset className="fieldset">
   <label className="label">Contact Number</label> 
-  <input type="number"{...register('Contact Number')} className="input" placeholder="Contact Number" />
+  <input type="number"{...register('contactNumber')} className="input" placeholder="Contact Number" />
   </fieldset>
 
    <fieldset className="fieldset">
   <label className="label">Delivery Address</label> 
-  <input type="text"{...register('Delivery Address')} className="input" placeholder="Delivery Address" />
+  <input type="text"{...register('deliveryAddress')} className="input" placeholder="Delivery Address" />
   </fieldset>
 
 
@@ -178,7 +219,9 @@ const NewOrder = () => {
 
             </div>
 
-              < input type='submit' className="btn btn-primary text-black" value="Create Order" />
+            <input type='submit' onClick={() => { handlePayment(); navigate("/paymentsuccess"); }} 
+ className="btn btn-primary text-black" value="Create Order" />
+             
              </form>
             
 

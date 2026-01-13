@@ -21,7 +21,9 @@ console.log("Navbar loading:", loading);
         <li><NavLink to=''>Products</NavLink></li>
         <li><NavLink to="/servicesection">Services</NavLink></li>
         <li><NavLink to="/neworder">New Order</NavLink></li>
-         <li><NavLink to="/allProducts">AllProducts</NavLink></li>
+        <li><NavLink to="/allProducts">AllProducts</NavLink></li>
+        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+
   
   </>
     return (
@@ -49,11 +51,15 @@ console.log("Navbar loading:", loading);
   <div className="navbar-end">
    {
     user ?
-    <a onClick={handleLogout}className='btn'>Logout</a>
+    <a onClick={handleLogout} className='btn'>Logout</a>
     :<Link className='btn' to="/login">Login</Link>
    }
+   <img className='w-10 h-10 rounded-full ml-4' src={user?.photoURL} alt="" />
+   <div className='ml-2'>
+    <p>{user?.displayName}</p>
   </div>
 </div>
+    </div>
     );
 };
 

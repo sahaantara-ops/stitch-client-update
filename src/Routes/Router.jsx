@@ -14,6 +14,7 @@ import PrivateRoutes from './PrivateRoutes'
 import AllProducts from "../Pages/AllProducts/AllProducts";
 import AllProductsLayout from "../Layouts/AllProductsLayout";
 import ProductDetails from "../Components/ProductDetails/ProductDetails";
+import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 
 export const router = createBrowserRouter([
   {
@@ -77,16 +78,51 @@ export const router = createBrowserRouter([
   
   loader: ({params}) => fetch(`http://localhost:5000/products/${params.id}`)
   },
-  
+  {
+   path: '/paymentsuccess',
+  element: <PaymentSuccess />,
+  },
+
+  {
+    path:'/myorder',
+     element: (
+          <PrivateRoutes>
+            
+          </PrivateRoutes>
+        ),
+  },
     
   
-  {
-    path:"/neworder",
-    element:  <PrivateRoutes>
-      <NewOrder/>
-    </PrivateRoutes>,
+{
+  path: "/neworder/:id",
+  element: (
+    <PrivateRoutes>
+      <NewOrder />
+    </PrivateRoutes>
+  ),
+  loader: async ({ params }) => {
+    const res = await fetch(`http://localhost:5000/products/${params.id}`);
 
-    loader: ()=> fetch("http://localhost:5000/products")
+    if (!res.ok) {
+      throw new Response("Product not found", { status: res.status });
+    }
+
+    return res.json();
   }
+},
+{
+  path:"/payment-success",
+  element:<PaymentSuccess/>
+},
+{
+  path:"/dashboard",
+  element:<DashBoard/>
+
+}
+
+
+
+
+
 
 ]);

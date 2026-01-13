@@ -49,7 +49,7 @@ const ProductDetails = () => {
             <button
               disabled={!canOrder}
               className="btn btn-primary"
-              onClick={() => navigate(`/neworder`)}
+              onClick={() => navigate(`/neworder/${model._id}`)}
             >
               Order / Book
             </button>
