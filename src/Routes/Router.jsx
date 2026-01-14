@@ -17,10 +17,9 @@ import ProductDetails from "../Components/ProductDetails/ProductDetails";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import DashboardLayout from "../Layouts/DashboardLayout";
 import Sidebar from "../Components/Dashboard/Sidebar/Sidebar";
-import AdminMenu from "../Components/Dashboard/Sidebar/Menu/AdminMenu";
-import CustomerMenu from "../Components/Dashboard/Sidebar/Menu/CustomerMenu";
-import MenuItem from "../Components/Dashboard/Sidebar/Menu/MenuItem";
-import SellerMenu from "../Components/Dashboard/Sidebar/Menu/SellerMenu";
+import AdminRoute from "./AdminRoute";
+
+import ManageUsers from "../Components/Dashboard/Sidebar/Menu/Manageusers";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -121,26 +120,16 @@ export const router = createBrowserRouter([
   element:<DashboardLayout/>,
     children:[
       {
-         path:"/dashboard/sidebar",
+         path:"dashboard/sidebar",
          element:<Sidebar/>,
         
       },
       {
-        path:"/dashboard/menu",
-        element:<AdminMenu />
+        path:"manageusers",
+        element:<AdminRoute><ManageUsers /></AdminRoute>,
+         loader: () => fetch("http://localhost:5000/users"),
       },
-      {
-        path:"/dashboard/menu",
-        element:<CustomerMenu />
-      },
-      {
-        path:"/dashboard/menu",
-        element:<MenuItem />,
-      },
-      {
-        path:"/dashboard/menu",
-        element:<SellerMenu/>,
-      }
+      
 
     ]
 

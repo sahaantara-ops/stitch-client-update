@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import useAuth from '../../Hooks/useAuth'
 
 // Icons
@@ -10,10 +10,12 @@ import { BsGraphUp } from 'react-icons/bs'
 
 // User Menu
 import MenuItem from './Menu/MenuItem'
-import AdminMenu from './Menu/AdminMenu'
-import SellerMenu from './Menu/SellerMenu'
-import CustomerMenu from './Menu/CustomerMenu'
 import logo  from '../../Logo/Logo'
+import {
+  HomeIcon,
+  UsersIcon,
+  ClipboardDocumentListIcon,
+} from '@heroicons/react/24/outline'
 
 const Sidebar = () => {
   const { logOut } = useAuth()
@@ -67,14 +69,22 @@ const Sidebar = () => {
             <nav>
               {/* Common Menu */}
               <MenuItem
-                icon={BsGraphUp}
-                label='Statistics'
-                address='/dashboard'
-              />
+               label="Dashboard"
+               address="/dashboard"
+               icon={HomeIcon}
+                />
+              <MenuItem
+              label="Manage Users"
+           address="/dashboard/manageusers"
+           icon={UsersIcon}
+           />
+           <MenuItem
+           label="Orders"
+           address="/dashboard/orders"
+           icon={ClipboardDocumentListIcon}
+           />
               {/* Role-Based Menu */}
-              <CustomerMenu />
-              <SellerMenu />
-              <AdminMenu />
+              
             </nav>
           </div>
 
