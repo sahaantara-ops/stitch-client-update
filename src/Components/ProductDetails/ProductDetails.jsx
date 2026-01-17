@@ -40,6 +40,9 @@ const ProductDetails = () => {
               <div className="badge badge-outline">
                 {model.category}
               </div>
+              <div className="badge badge-outline">
+                Status: {model.Status}
+              </div>
             </div>
 
             <p className="text-lg font-medium">

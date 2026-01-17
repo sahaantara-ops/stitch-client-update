@@ -4,7 +4,7 @@ import { Link } from "react-router";
 
 
 const ProductCards = ({model}) => {
-    const {productName, productImage, category, price,availableQuantity, _id} = model
+    const {productName, productImage, category, price,availableQuantity, _id,Status} = model
     console.log(model);
     return (
       
@@ -23,6 +23,8 @@ const ProductCards = ({model}) => {
         <h2 className="card-title">{productName}</h2>
         <div className="badge text-xs badge-xs badge-secondary text-amber-500 rounded-full">{category}</div>
         <div className="text-1xl font-bold text-amber-950">Quantity:{availableQuantity}</div>
+        <div className="text-1xl font-bold text-amber-950">Status:{Status}</div>
+        
         <p className="line-clamp-1">
            Price: {price} Tk
         </p>

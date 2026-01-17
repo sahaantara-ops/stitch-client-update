@@ -60,9 +60,20 @@ export const router = createBrowserRouter([
     element:<AllProductsLayout/>,
     children:[
       {
-          path:"/allproducts",
+          path:"/products",
     element:<AllProducts/>,
-    loader: ()=> fetch("http://localhost:5000/products")
+    loader: async () => {
+  const res = await fetch("http://localhost:5000/products");
+
+  if (!res.ok) {
+    throw new Response("Failed to load products", {
+      status: res.status,
+    });
+  }
+
+  return res.json();
+}
+
       }
     ]
   },
@@ -121,6 +132,10 @@ export const router = createBrowserRouter([
      {
       path:"allorders",
       element:<AllOrders/>,
+     },
+     {
+      path:"allproducts",
+      element:<AllProducts/>,
      }
       
 

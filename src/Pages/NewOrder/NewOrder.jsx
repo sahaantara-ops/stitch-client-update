@@ -27,8 +27,8 @@ const NewOrder = () => {
  console.log(totalPrice);
 
  const handleNewOrder = (data) => {
-  console.log(data);
-  axiosSecure.post('/neworder', data)
+ console.log(data);
+ axiosSecure.post('/neworder', data)
     .then(res=>{
      console.log('after saving orders',res.data);
     })
@@ -121,7 +121,12 @@ return(
 
            <fieldset className="fieldset">
           <label className="label">Product Name</label> 
-          <input type="text"{...register('productName')} className="input" placeholder="Product Name" />
+          <input type="text"{...register('productName')} className="input" placeholder="Product Name"   defaultValue={model?.result?.productName} />
+          </fieldset>
+
+           <fieldset className="fieldset">
+          <label className="label">Product Status</label> 
+          <input type="text"{...register('productStatus')} className="input" placeholder="Product Status"   defaultValue={model?.result?.Status} />
           </fieldset>
 
           
@@ -146,6 +151,9 @@ return(
                   {...register("paymentMethod", { required: true })}
                    className="select select-bordered w-full"
                      >
+              {errors.paymentMethod && (
+             <p className="text-red-500 text-sm">Payment method is required</p>
+          )}
                 <option value="">Select Method</option>
                 <option value="Bkash" className='flex'>
               
@@ -168,16 +176,16 @@ return(
   <input
     type="number"
     className="input input-bordered w-full"
-    defaultValue={model.minimumOrder}
+    defaultValue={model?.result?.minimumOrder}
     {...register("orderQuantity", {
       required: "Quantity is required",
       min: {
         value: model.minimumOrder,
-        message: `Minimum order is ${model.minimumOrder}`
+        message: `Minimum order is ${model?.result?.minimumOrder}`
       },
       max: {
         value: model.availableQuantity,
-        message: `Maximum available quantity is ${model.availableQuantity}`
+        message: `Maximum available quantity is ${model?.result?.availableQuantity}`
       }
     })}
   />
@@ -200,10 +208,7 @@ return(
   />
 </fieldset>
 
- <fieldset className="fieldset">
-  <label className="label">Contact Number</label> 
-  <input type="number"{...register('contactNumber')} className="input" placeholder="Contact Number" />
-  </fieldset>
+
 
    <fieldset className="fieldset">
   <label className="label">Delivery Address</label> 
