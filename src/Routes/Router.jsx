@@ -11,13 +11,15 @@ import ErrorPage from "../Pages/Errorpage/Errorpage";
 
 import NewOrder from "../Pages/NewOrder/NewOrder";
 import PrivateRoutes from './PrivateRoutes'
-import AllProducts from "../Pages/AllProducts/AllProducts";
+
 import AllProductsLayout from "../Layouts/AllProductsLayout";
 import ProductDetails from "../Components/ProductDetails/ProductDetails";
 import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
 import DashboardLayout from "../Layouts/DashboardLayout";
 ;
 import AllOrders from "../Pages/Dashboard/AllOrders/AllOrders";
+import Products from "../Pages/Products/Products";
+import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -61,7 +63,7 @@ export const router = createBrowserRouter([
     children:[
       {
           path:"/products",
-    element:<AllProducts/>,
+    element:<Products/>,
     loader: async () => {
   const res = await fetch("http://localhost:5000/products");
 
@@ -134,9 +136,21 @@ export const router = createBrowserRouter([
       element:<AllOrders/>,
      },
      {
-      path:"allproducts",
-      element:<AllProducts/>,
-     }
+        path:"products",
+       element:<AllProducts/>
+//     loader: async () => {
+//   const res = await fetch("http://localhost:5000/products");
+
+//   if (!res.ok) {
+//     throw new Response("Failed to load products", {
+//       status: res.status,
+//     });
+//   }
+
+//   return res.json();
+// }
+
+      }
       
 
     ]

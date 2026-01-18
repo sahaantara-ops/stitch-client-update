@@ -38,7 +38,7 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/allorders"> <MdOutlineBorderStyle /> Orders</NavLink>
         </li>
         <li>
-            <NavLink to="/dashboard/allproducts"> <MdOutlineBorderStyle /> Products</NavLink>
+            <NavLink to="/dashboard/products"> <MdOutlineBorderStyle /> Products</NavLink>
         </li>
         
 
