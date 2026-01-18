@@ -3,6 +3,7 @@ import useAxiosSecure from "../../../Components/Hooks/useAxiosSecure";
 import UseAuth from "../../../Components/Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from 'react-toastify';
+import { Link } from "react-router-dom";
 
 const AllProducts = () => {
   const { loading } = UseAuth();
@@ -19,9 +20,9 @@ const AllProducts = () => {
   if (loading || isLoading) {
     return <p>Loading products...</p>;
   }
-  const handleToggleHome = async (id) => {
+  const handleToggleHome = async (id,currentValue) => {
   await axiosSecure.patch(`/products/${id}`, {
-    toggleHome: true
+    toggleHome: !currentValue
   });
   refetch();
 };
@@ -79,9 +80,13 @@ const handleDelete = async (id) => {
                 </td>
 
                 <td className="flex gap-2">
-                  <button className="btn btn-sm btn-info">
-                    <MdEdit />
-                  </button>
+                  <td>
+             <Link to={`/dashboard/edit-product/${product._id}`}>
+             <button className="btn btn-sm btn-primary">
+              <MdEdit /> Update
+              </button>
+              </Link>
+              </td>
                   <button
                     className="btn btn-sm btn-error"
                     onClick={() => handleDelete(product._id)}

@@ -35,6 +35,9 @@ const DashboardLayout = () => {
           </Link>
         </li>
         <li>
+            <NavLink to="/dashboard/manage-users"> <MdOutlineBorderStyle /> Manage Users</NavLink>
+        </li>
+        <li>
             <NavLink to="/dashboard/allorders"> <MdOutlineBorderStyle /> Orders</NavLink>
         </li>
         <li>

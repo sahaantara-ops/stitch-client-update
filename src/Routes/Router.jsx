@@ -20,6 +20,9 @@ import DashboardLayout from "../Layouts/DashboardLayout";
 import AllOrders from "../Pages/Dashboard/AllOrders/AllOrders";
 import Products from "../Pages/Products/Products";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
+import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
+import ManageUsers from "../Pages/ManageUsers/ManageUsers";
+import AdminRoute from '../Routes/AdminRoute'
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -138,19 +141,19 @@ export const router = createBrowserRouter([
      {
         path:"products",
        element:<AllProducts/>
-//     loader: async () => {
-//   const res = await fetch("http://localhost:5000/products");
-
-//   if (!res.ok) {
-//     throw new Response("Failed to load products", {
-//       status: res.status,
-//     });
-//   }
-
-//   return res.json();
-// }
-
-      }
+    },
+    {
+    path:  "edit-product/:id",
+    element: <EditProducts/>
+    },
+    {
+     path: "manage-users",
+     element:(
+      <AdminRoute>
+        <ManageUsers/>
+      </AdminRoute>
+     )
+    }
       
 
     ]
