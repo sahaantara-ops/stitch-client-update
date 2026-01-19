@@ -22,7 +22,7 @@ import Products from "../Pages/Products/Products";
 import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
 import ManageUsers from "../Pages/ManageUsers/ManageUsers";
-import AdminRoute from '../Routes/AdminRoute'
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -149,9 +149,9 @@ export const router = createBrowserRouter([
     {
      path: "manage-users",
      element:(
-      <AdminRoute>
+      
         <ManageUsers/>
-      </AdminRoute>
+      
      )
     }
       

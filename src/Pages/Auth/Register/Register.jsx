@@ -2,36 +2,58 @@ import React from 'react';
 import image from '../../../assets/Register.jpg'
 import { useForm } from 'react-hook-form';
 import UseAuth from '../../../Components/Hooks/useAuth';
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
+import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
 
 const Register = () => {
 
     const{register,handleSubmit, formState:{errors}} = useForm();
     const{registerUser,updateUserProfile,user} = UseAuth()
-
+      const navigate = useNavigate();
       const location = useLocation();
+      const axiosSecure = useAxiosSecure();
+      
 
-  const from = location.state || '/'
-  if (user) return <Navigate to={from} replace={true}></Navigate>
+  const from = location.state?.pathname || '/'
+  if (user) return navigate(from);
 
     const handleRegistration = (data)=>{
-        console.log('after register',data.photo[0]);
+       
         const profileImg = data.photo[0];
         registerUser(data.email,data.password)
-        .then(result => {
-          console.log(result.user)
+        .then(() => {
+          
           const formData = new FormData();
           formData.append('image',profileImg)
           const Image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_host_key}`
           axios.post(Image_API_URL , formData)
           .then(res =>{
-            console.log('after image upload', res.data.data.url)
+            const photoURL= res.data.data.url;
+
+            const userInfo = {
+              email:data.email,
+              displayName:data.name,
+              photoURL : photoURL
+
+
+            }
+          axiosSecure.post('/users', userInfo)
+  .then(res => {
+    console.log('users api response:', res.data);
+    if (res.data.insertedId) {
+      console.log('user created in the database');
+    }
+  })
+  .catch(error => {
+    console.error('Error saving user to DB:', error);
+  });
+
 
             const userProfile = {
               displayName : data.name,
-              photoURL : res.data.data.url
+              photoURL : photoURL
 
             }
             console.log(userProfile)
@@ -76,22 +98,6 @@ const Register = () => {
                        
 
                      {/* Roll */}
-
-                     <label className="form-control w-full">
-                    <span className="label-text">Select Role</span>
-                   <select
-                  {...register("role", { required: true })}
-                   className="select select-bordered w-full"
-                     >
-                <option value="">Select your role</option>
-                <option value="buyer">Buyer</option>
-                <option value="manager">Manager</option>
-               </select>
-                </label>
-
-              {errors.role && (
-              <p className="text-red-500 text-sm">Role is required</p>
-               )}
 
 
                    

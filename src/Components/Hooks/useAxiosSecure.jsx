@@ -18,26 +18,27 @@ const useAxiosSecure = () => {
             return config;
     })
 
-    const resInterceptor = axiosSecure.interceptors.response.use((response)=>{
-        return response;
-    },(error) =>{
+ const resInterceptor = axiosSecure.interceptors.response.use(
+    (response) => response,
+    (error) => {
         console.log(error);
 
-        const statusCode = error.status;
-        if (statusCode === 401 || statusCode === 403){
-            logout().then(()=>{
-                navigate ('/login');
-            })
+        const statusCode = error.response?.status; 
+        if (statusCode === 401 || statusCode === 403) {
+            logout().then(() => {
+                navigate('/login');
+            });
         }
 
         return Promise.reject(error);
-    })
+    }
+);
     return ()=>{
         axiosSecure.interceptors.request.eject(reqInterceptor);
         axiosSecure.interceptors.response.eject(resInterceptor);
     }
 
-    },[user])
+    },[user,logout, navigate])
     return axiosSecure;
 };
 
