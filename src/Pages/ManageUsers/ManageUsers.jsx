@@ -1,31 +1,43 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
-
+import { FaUser } from "react-icons/fa";
+import { FaUsersSlash } from "react-icons/fa";
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
 
-  const { data: users = [], refetch, isLoading } = useQuery({
-    queryKey: ["manageusers"],
+  const { refetch,data: users = [],  isLoading } = useQuery({
+    queryKey: ["users"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/users");
-      return Array.isArray(res.data) ? res.data : [];
+      const res = await axiosSecure.get(`/users`);
+      return res.data ;
     }
   });
 
-  const handleRoleChange = async (id, role) => {
-    await axiosSecure.patch(`/users/role/${id}`, { role });
-    toast.success("Role updated");
-    refetch();
-  };
+const handleMakeAdmin = (user) => {
+  const roleInfo = {role: 'admin'}
+  axiosSecure.patch(`/users/${user._id}/role`,roleInfo)
+  .then(res=>{
+    console.log(res.data);
+    if (res.data.modifiedCount){
+      refetch();
+      toast.success(`${user.displayName} is now an admin`);
+    }
+  });
+}
 
-  const handleSuspend = async (id, currentStatus) => {
-    await axiosSecure.patch(`/users/suspend/${id}`, {
-      suspended: !currentStatus
-    });
-    toast.success(currentStatus ? "User unsuspended" : "User suspended");
-    refetch();
-  };
+const handleRemoveAdmin = (user) => {
+  const roleInfo = {role: 'user'}
+  axiosSecure.patch(`/users/${user._id}/role`,roleInfo)
+  .then(res=>{
+    console.log(res.data);
+    if (res.data.modifiedCount){
+      refetch();
+      toast.success(`${user.displayName} removed as an admin`);
+    }
+  });
+}
+
 
   if (isLoading) return <p>Loading users...</p>;
 
@@ -49,7 +61,7 @@ const ManageUsers = () => {
           <tbody>
             {users.map(user => (
               <tr key={user._id}>
-                <td>{user.name || "N/A"}</td>
+                <td>{user.name }</td>
                 <td>{user.email}</td>
                 <td>
                   <span className="badge badge-info">
@@ -59,25 +71,17 @@ const ManageUsers = () => {
 
                 <td className="flex gap-2">
                   {/* Make Admin */}
-                  <button
-                    disabled={user.role === "admin"}
-                    onClick={() => handleRoleChange(user._id, "admin")}
-                    className="btn btn-xs btn-success"
-                  >
-                    Make Admin
+                 {user.role === 'admin' ? 
+                 <button className="btn" onClick={()=> handleRemoveAdmin(user)}>
+                    <FaUsersSlash />
+                  </button> :
+                    <button className="btn" onClick={() => handleMakeAdmin(user)}>
+                     <FaUser />
                   </button>
+   } 
 
                   {/* Suspend */}
-                  <button
-                    onClick={() =>
-                      handleSuspend(user._id, user.suspended)
-                    }
-                    className={`btn btn-xs ${
-                      user.suspended ? "btn-warning" : "btn-error"
-                    }`}
-                  >
-                    {user.suspended ? "Unsuspend" : "Suspend"}
-                  </button>
+                  
                 </td>
               </tr>
             ))}

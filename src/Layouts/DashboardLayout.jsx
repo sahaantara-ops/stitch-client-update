@@ -2,8 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router';
 import { Link, Outlet } from 'react-router';
 import { MdOutlineBorderStyle } from "react-icons/md";
+import UseRole from '../Components/Hooks/UseRole';
 
 const DashboardLayout = () => {
+  const {role} = UseRole();
     return (
        <div className="drawer lg:drawer-open">
   <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -34,15 +36,23 @@ const DashboardLayout = () => {
             <span className="is-drawer-close:hidden">Homepage</span>
           </Link>
         </li>
-        <li>
-            <NavLink to="/dashboard/manage-users"> <MdOutlineBorderStyle /> Manage Users</NavLink>
-        </li>
-        <li>
+
+              {
+                role === 'user' && (<>
+                <li>
+            <NavLink to="/dashboard/manageusers"> <MdOutlineBorderStyle /> Manage Users</NavLink>
+              </li>
+               <li>
             <NavLink to="/dashboard/allorders"> <MdOutlineBorderStyle /> Orders</NavLink>
         </li>
         <li>
             <NavLink to="/dashboard/products"> <MdOutlineBorderStyle /> Products</NavLink>
-        </li>
+        </li> 
+                </>)
+              }
+
+        
+       
         
 
         {/* List item */}

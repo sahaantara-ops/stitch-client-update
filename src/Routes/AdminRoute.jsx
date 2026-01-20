@@ -1,19 +1,23 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import UseAuth from '../Components/Hooks/useAuth';
+import UseRole from '../Components/Hooks/UseRole';
 
 const AdminRoute = ({ children }) => {
-  const { user, loading } = UseAuth();
+  const {  loading } = UseAuth();
+  const {role, roleLoading} = UseRole();
+
+  if(loading || roleLoading){
+    return<p>Loading...</p>
+  }
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+ 
 
-  if (user.role !== 'admin') {
+  if (role == 'admin') {
     return <Navigate to="/" replace />;
   }
 
