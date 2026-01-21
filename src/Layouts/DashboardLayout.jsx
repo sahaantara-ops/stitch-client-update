@@ -38,18 +38,19 @@ const DashboardLayout = () => {
         </li>
 
               {
-                role === 'user' && (<>
+                role === 'admin' && <>
                 <li>
-            <NavLink to="/dashboard/manageusers"> <MdOutlineBorderStyle /> Manage Users</NavLink>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/manageusers"> <MdOutlineBorderStyle />  <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
               </li>
                <li>
-            <NavLink to="/dashboard/allorders"> <MdOutlineBorderStyle /> Orders</NavLink>
+            <NavLink  className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/allorders"> <MdOutlineBorderStyle /><span className="is-drawer-close:hidden">Order</span></NavLink>
         </li>
         <li>
-            <NavLink to="/dashboard/products"> <MdOutlineBorderStyle /> Products</NavLink>
+            <NavLink className="is-drawer-close:hidden" to="/dashboard/products"> <MdOutlineBorderStyle /> <span className="is-drawer-close:hidden">Products</span></NavLink>
         </li> 
-                </>)
+                </>
               }
+               
 
         
        

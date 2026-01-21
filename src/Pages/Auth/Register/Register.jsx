@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import axios from 'axios';
 import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
+import { toast } from 'react-toastify';
 
 const Register = () => {
 
@@ -18,6 +19,18 @@ const Register = () => {
 
   const from = location.state?.pathname || '/'
   if (user) return navigate(from);
+    const handleAddUser = async (userData,refetch) => {
+  try {
+    const res = await axiosSecure.post('/users', userData);
+    if (res.data.success) {
+      toast.success(`${userData.displayName} added successfully`);
+      refetch(); // refresh users list
+    }
+  } catch (err) {
+    console.error(err);
+    toast.error('Failed to add user');
+  }
+}
 
     const handleRegistration = (data)=>{
        
@@ -126,7 +139,7 @@ const Register = () => {
                     }
 
                     <div><a className="link link-hover">Forgot password?</a></div>
-                    <button className="btn btn-neutral bg-lime-900 mt-4">Register</button>
+                    <button onSubmit={handleAddUser} className="btn btn-neutral bg-lime-900 mt-4">Register</button>
                     <p>Registered before ? then <Link className='text-amber-800 underline' to='/login'> login </Link> </p>
                   </fieldset>
                   <SocialLogin></SocialLogin>

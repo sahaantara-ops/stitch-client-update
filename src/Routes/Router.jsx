@@ -149,11 +149,12 @@ export const router = createBrowserRouter([
     },
     {
      path: "manageusers",
-     element:(
-        <AdminRoute><ManageUsers/></AdminRoute>
+     Component:ManageUsers
+    //  element:(
+    //     <AdminRoute><ManageUsers/></AdminRoute>
         
       
-     )
+    //  )
     }
       
 
