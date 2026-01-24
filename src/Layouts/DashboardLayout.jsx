@@ -5,7 +5,8 @@ import { MdOutlineBorderStyle } from "react-icons/md";
 import UseRole from '../Components/Hooks/UseRole';
 
 const DashboardLayout = () => {
-  const {role} = UseRole();
+  
+  
     return (
        <div className="drawer lg:drawer-open">
   <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -37,8 +38,7 @@ const DashboardLayout = () => {
           </Link>
         </li>
 
-              {
-                role === 'admin' && <>
+              
                 <li>
             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/manageusers"> <MdOutlineBorderStyle />  <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
               </li>
@@ -48,8 +48,7 @@ const DashboardLayout = () => {
         <li>
             <NavLink className="is-drawer-close:hidden" to="/dashboard/products"> <MdOutlineBorderStyle /> <span className="is-drawer-close:hidden">Products</span></NavLink>
         </li> 
-                </>
-              }
+              
                
 
         

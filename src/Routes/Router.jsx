@@ -14,7 +14,7 @@ import PrivateRoutes from './PrivateRoutes'
 
 import AllProductsLayout from "../Layouts/AllProductsLayout";
 import ProductDetails from "../Components/ProductDetails/ProductDetails";
-import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
 import DashboardLayout from "../Layouts/DashboardLayout";
 ;
 import AllOrders from "../Pages/Dashboard/AllOrders/AllOrders";
@@ -23,6 +23,7 @@ import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
 import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
 import ManageUsers from "../Pages/ManageUsers/ManageUsers";
 import AdminRoute from "./AdminRoute";
+import Payment from "../Pages/Dashboard/Payment/Payment";
 
 export const router = createBrowserRouter([
   {
@@ -94,10 +95,7 @@ export const router = createBrowserRouter([
   
   loader: ({params}) => fetch(`http://localhost:5000/products/${params.id}`)
   },
-  {
-   path: '/paymentsuccess',
-  element: <PaymentSuccess />,
-  },
+ 
 
   {
     path:'/myorder',
@@ -126,10 +124,7 @@ export const router = createBrowserRouter([
     return res.json();
   }
 },
-{
-  path:"/payment-success",
-  element:<PaymentSuccess/>
-},
+
 {
   path:"/dashboard",
   element:<PrivateRoutes><DashboardLayout/></PrivateRoutes>,
@@ -137,11 +132,11 @@ export const router = createBrowserRouter([
     
      {
       path:"allorders",
-      element:<AdminRoute><AllOrders/></AdminRoute>,
+      element:<AllOrders/>,
      },
      {
         path:"products",
-       element:<AdminRoute><AllProducts/></AdminRoute>,
+       element:<AllProducts/>,
     },
     {
     path:  "edit-product/:id",
@@ -149,13 +144,17 @@ export const router = createBrowserRouter([
     },
     {
      path: "manageusers",
-     Component:ManageUsers
-    //  element:(
-    //     <AdminRoute><ManageUsers/></AdminRoute>
+     element:<ManageUsers/>
         
-      
-    //  )
-    }
+    },
+    {
+      path:"payment/:id",
+      element:<Payment></Payment>
+    },
+    {
+       path:"payment-success",
+       element:<PaymentSuccess/>
+   }
       
 
     ]

@@ -1,17 +1,22 @@
-import axios from 'axios'
+
 import React, { useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { IoBagCheckOutline } from 'react-icons/io5'
+import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure'
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams()
+  const AxiosSecure = useAxiosSecure();
   const sessionId = searchParams.get('session_id')
+   console.log(sessionId);
   useEffect(() => {
     if (sessionId) {
-      axios.post(`${import.meta.env.VITE_API_URL}/payment-success`, {
-        sessionId,
-      })
+        AxiosSecure.patch (`/payment-success?session_id=${sessionId}`)
+        .then(res=>{
+            console.log(res.data)
+        })
     }
-  }, [sessionId])
+      
+     }, [sessionId,AxiosSecure])
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='bg-white p-10 rounded-lg shadow-lg text-center'>
@@ -23,7 +28,7 @@ const PaymentSuccess = () => {
           Thank you for your purchase. Your order is being processed.
         </p>
         <Link
-          to='/dashboard/my-orders'
+          to='dashboard/products'
           className='inline-block bg-lime-500 text-white font-semibold py-2 px-4 rounded hover:bg-lime-600 transition duration-300'
         >
           Go to My Orders
