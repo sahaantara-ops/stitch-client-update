@@ -1,13 +1,17 @@
-import React  from 'react';
+import React, { useEffect } from 'react';
+
 import Navbar from '../Shared/Navbar/Navbar';
 import Footer from '../Shared/Footer/Footer';
 import { useForm,useWatch } from 'react-hook-form';
 import Container from '../Shared/Container/Container';
-import { useLoaderData } from 'react-router';
+import { Navigate, useLoaderData } from 'react-router';
 import UseAuth from '../../Components/Hooks/useAuth';
 // import axios from 'axios';
 // import { useNavigate } from "react-router-dom";
 import useAxiosSecure from '../../Components/Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
+
+
 
 
 
@@ -18,70 +22,46 @@ const NewOrder = () => {
  console.log(model);
 
 //  const navigate = useNavigate();
-
- const { register, handleSubmit, control, formState: { errors } } = useForm();
- const axiosSecure = useAxiosSecure();
  const {user} = UseAuth();
+ const { register, handleSubmit, control,   setValue,formState: { errors } } = useForm();
+ useEffect(() => {
+  if (user?.email) {
+    setValue("email", user.email);
+  }
+}, [user, setValue]);
+
+
+
+ const axiosSecure = useAxiosSecure();
+ 
+
  const quantity = useWatch({ control, name: "orderQuantity" }) || model?.result?.minimumOrder;
  const totalPrice = quantity * model?.result?.price;
  console.log(totalPrice);
 
  const handleNewOrder = (data) => {
- console.log(data);
- axiosSecure.post('/neworder', data)
-    .then(res=>{
-     console.log('after saving orders',res.data);
-    })
+  console.log('Form data',data)
+  
+
+ 
+  Swal.fire({
+    title: 'Confirm Payment',
+    text: `You have to pay ${totalPrice} taka`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Pay Now',
+  }).then(async () => {
+      const res = await axiosSecure.post('/neworder', data);
+      console.log('after saving order', res.data);
    
-}
+  });
+};
 
-// const {_id, productName,productImage,category,price,availableQuantity} = model || {}
 
-// const handlePayment = async()=>{
-//     if (!price || isNaN(Number(price))) {
-//     alert("Invalid product price");
-//     return;
-//   }
+  
 
-//   if (!quantity || Number(quantity) < 1) {
-//     alert("Invalid quantity");
-//     return;
-//   }
 
-//   if (!user?.email) {
-//     alert("Please login to continue payment");
-//     return;
-//   }
 
-  //  const paymentInfo = {
-  //     _id,
-  //   productName,
-  //   product_image: productImage,        
-  //   category,
-  //   price: Number(price),               
-  //   orderQuantity: Number(quantity),    
-  //   totalPrice: Number(totalPrice),
-  //     availableQuantity:
-  //     availableQuantity,
-  //     customer:{
-  //       name:user?.displayName,
-  //       email:user?.email,
-  //     }
-  //  }
-  //  console.log(price);
-  //  try{
-  //  const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/create-checkout-session`, paymentInfo);
-  // console.log(data);
-   
-
-    // Redirect to Stripe
-  //   window.location.href = data.url;
-  //   console.log("Stripe session URL:", data.url);
-  // } catch (err) {
-  //   console.error("Checkout failed:", err.response?.data || err.message);
-  //   alert("Unable to start checkout. Please try again.");
-  // }
-  // console.log("Payment info received:", paymentInfo);
     
 return(
         <Container>
@@ -116,7 +96,16 @@ return(
             <div className='grid grid-cols-3 gap-2'>
               <fieldset className="fieldset">
           <label className="label">Email</label>
-          <input type="email"{...register('email')} defaultValue={user?.email} className="input" placeholder="Email" />
+         <input
+  type="email"
+  {...register("email", { required: "Email is required" })}
+  className="input"
+/>
+
+{errors.email && (
+  <p className="text-red-500 text-sm">{errors.email.message}</p>
+)}
+
           </fieldset>
 
            <fieldset className="fieldset">
@@ -145,15 +134,13 @@ return(
 
 
 
-<label className="form-control w-full">
+                   <label className="form-control w-full">
                     <span className="label-text text-gray-400 w-40">Payment Method</span>
                    <select
                   {...register("paymentMethod", { required: true })}
                    className="select select-bordered w-full"
                      >
-              {errors.paymentMethod && (
-             <p className="text-red-500 text-sm">Payment method is required</p>
-          )}
+             
                 <option value="">Select Method</option>
                 <option value="Bkash" className='flex'>
               
@@ -168,6 +155,9 @@ return(
                 Cash On Delivery
                 </option>
                </select>
+               {errors.paymentMethod && (
+  <p className="text-red-500 text-sm">{errors.paymentMethod.message}</p>
+)}
                 </label>
         
 <fieldset className="fieldset">
@@ -180,11 +170,11 @@ return(
     {...register("orderQuantity", {
       required: "Quantity is required",
       min: {
-        value: model.minimumOrder,
+        value: model?.result?.minimumOrder,
         message: `Minimum order is ${model?.result?.minimumOrder}`
       },
       max: {
-        value: model.availableQuantity,
+        value: model?.result?.availableQuantity,
         message: `Maximum available quantity is ${model?.result?.availableQuantity}`
       }
     })}
@@ -197,7 +187,7 @@ return(
   )}
 </fieldset>
 
-<fieldset className="fieldset">
+{/* <fieldset className="fieldset">
   <label className="label font-semibold">Order Price</label>
 
   <input
@@ -206,7 +196,12 @@ return(
     className="input input-bordered w-full bg-gray-100"
     value={`${totalPrice} tk`}
   />
-</fieldset>
+</fieldset> */}
+<fieldset className="fieldset">
+<label className="label font-semibold">Order Price</label>
+ <input type="text"{...register('orderprice', { valueAsNumber: true })} className="input input-bordered w-full bg-gray-100"
+   value = {totalPrice}  />
+     </fieldset>
 
 
 

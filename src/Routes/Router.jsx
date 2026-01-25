@@ -24,6 +24,7 @@ import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
 import ManageUsers from "../Pages/ManageUsers/ManageUsers";
 import AdminRoute from "./AdminRoute";
 import Payment from "../Pages/Dashboard/Payment/Payment";
+import MyOrder from "../Pages/Dashboard/MyOrder/MyOrder";
 
 export const router = createBrowserRouter([
   {
@@ -97,14 +98,7 @@ export const router = createBrowserRouter([
   },
  
 
-  {
-    path:'/myorder',
-     element: (
-          <PrivateRoutes>
-            
-          </PrivateRoutes>
-        ),
-  },
+ 
     
   
 {
@@ -154,7 +148,12 @@ export const router = createBrowserRouter([
     {
        path:"payment-success",
        element:<PaymentSuccess/>
-   }
+   },
+    {
+    path:'myorder',
+     element: <MyOrder></MyOrder>
+        
+  },
       
 
     ]

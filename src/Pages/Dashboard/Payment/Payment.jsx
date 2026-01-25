@@ -8,8 +8,8 @@ const Payment = () => {
   const axiosSecure = useAxiosSecure();
   const {user} = UseAuth();
 
-  const { isLoading, data: product } = useQuery({
-    queryKey: ['product', id],
+  const { isLoading, data: products } = useQuery({
+    queryKey: ['products', id],
     enabled: !!id, // extra safety
     queryFn: async () => {
       const res = await axiosSecure.get(`/products/${id}`);
@@ -19,10 +19,10 @@ const Payment = () => {
   });
   const handlePayment =async ()=>{
     const paymentInfo ={
-    price: product?.result?.price,
-    id: product?.result?._id,
+    price: products?.price,
+    id: products?._id,
     senderEmail:user?.email,
-    productName: product?.result?.productName,
+    productName: products?.productName,
 
   }
   console.log("paymentInfo:", paymentInfo);
@@ -31,7 +31,7 @@ const Payment = () => {
       '/create-checkout-session',
       paymentInfo
     );
-    console.log(res.data.ur);
+    console.log(res.data.url);
     window.location.assign(res.data.url);
   } catch (err) {
     console.error(err.response?.data || err);
@@ -45,7 +45,7 @@ const Payment = () => {
 
   return (
     <div>
-      <h2>Pay please ${product?.result?.price}: {product?.result?.productName}</h2>
+      <h2>Pay please ${products?.price}: {products?.productName}</h2>
       <button onClick={handlePayment} className='btn btn-primary text-black'>Pay</button>
     </div>
   );

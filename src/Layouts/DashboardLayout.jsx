@@ -46,7 +46,7 @@ const DashboardLayout = () => {
             <NavLink  className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/allorders"> <MdOutlineBorderStyle /><span className="is-drawer-close:hidden">Order</span></NavLink>
         </li>
         <li>
-            <NavLink className="is-drawer-close:hidden" to="/dashboard/products"> <MdOutlineBorderStyle /> <span className="is-drawer-close:hidden">Products</span></NavLink>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/products"> <MdOutlineBorderStyle /> <span className="is-drawer-close:hidden">Products</span></NavLink>
         </li> 
               
                

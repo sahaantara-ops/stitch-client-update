@@ -67,7 +67,7 @@ const handleRemoveAdmin = (user) => {
           <tbody>
             {users.map(user => (
               <tr key={user._id}>
-                <td>{user.name }</td>
+                <td>{user.displayName }</td>
                 <td>{user.email}</td>
                 <td>
                   <span className="badge badge-info">

@@ -65,8 +65,8 @@ const Register = () => {
 
 
             const userProfile = {
-              displayName : data.name,
-              photoURL : photoURL
+            displayName : data.name,
+            photoURL : photoURL
 
             }
             console.log(userProfile)

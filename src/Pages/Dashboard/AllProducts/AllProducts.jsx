@@ -49,7 +49,7 @@ const handleDelete = async (id) => {
               <th>Name</th>
               <th>Price</th>
               <th>Category</th>
-              <th>Payment</th>
+             
               <th>Status</th>
               
               <th>Show on Home</th>
@@ -71,14 +71,8 @@ const handleDelete = async (id) => {
       <td>{product.productName}</td>
       <td>{product.price}</td>
       <td>{product.category}</td>
-      <td>
-        {
-          product.paymentStatus === 'paid'?
-          <span className="text-green-600 font-bold">Paid</span> :
-          <Link to={`/dashboard/payment/${product._id}`}><button className="btn btn-sm btn-primary">Pay</button></Link>
-        }
-      </td>
-      <td>{product.status}</td>
+     
+      <td>{product.Status}</td>
 
                 <td>
                   <input
