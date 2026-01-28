@@ -22,7 +22,7 @@ console.log("Navbar loading:", loading);
         <li><NavLink to="/servicesection">Services</NavLink></li>
         <li><NavLink to="/neworder">New Order</NavLink></li>
         <li><NavLink to="/Products">AllProducts</NavLink></li>
-        <li><NavLink to="/dashboard/allorders">Dashboard</NavLink></li>
+        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
 
   
   </>

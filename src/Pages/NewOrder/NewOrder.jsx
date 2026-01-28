@@ -4,7 +4,7 @@ import Navbar from '../Shared/Navbar/Navbar';
 import Footer from '../Shared/Footer/Footer';
 import { useForm,useWatch } from 'react-hook-form';
 import Container from '../Shared/Container/Container';
-import { Navigate, useLoaderData } from 'react-router';
+import { Navigate, useLoaderData, useNavigate } from 'react-router';
 import UseAuth from '../../Components/Hooks/useAuth';
 // import axios from 'axios';
 // import { useNavigate } from "react-router-dom";
@@ -33,14 +33,23 @@ const NewOrder = () => {
 
 
  const axiosSecure = useAxiosSecure();
+ const navigate = useNavigate(); 
  
 
- const quantity = useWatch({ control, name: "orderQuantity" }) || model?.result?.minimumOrder;
- const totalPrice = quantity * model?.result?.price;
+const quantity =
+  Number(useWatch({ control, name: "orderQuantity" })) ||
+  Number(model?.result?.minimumOrder);
+  const price = Number(model?.result?.price) || 0;
+
+ const totalPrice = quantity * price;
  console.log(totalPrice);
 
  const handleNewOrder = (data) => {
-  console.log('Form data',data)
+   const orderData = {
+    ...data,
+    orderprice: totalPrice, // Add it manually
+  };
+  console.log('Form data',orderData)
   
 
  
@@ -51,8 +60,18 @@ const NewOrder = () => {
     showCancelButton: true,
     confirmButtonText: 'Yes, Pay Now',
   }).then(async () => {
-      const res = await axiosSecure.post('/neworder', data);
+      const res = await axiosSecure.post('/neworder', orderData);
       console.log('after saving order', res.data);
+      if(res.data.insertedId){
+        navigate('/dashboard/neworder')
+        Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Order has created.Please pay",
+  showConfirmButton: false,
+  timer: 1500
+});
+      }
    
   });
 };
@@ -187,7 +206,7 @@ return(
   )}
 </fieldset>
 
-{/* <fieldset className="fieldset">
+<fieldset className="fieldset">
   <label className="label font-semibold">Order Price</label>
 
   <input
@@ -196,12 +215,11 @@ return(
     className="input input-bordered w-full bg-gray-100"
     value={`${totalPrice} tk`}
   />
-</fieldset> */}
-<fieldset className="fieldset">
-<label className="label font-semibold">Order Price</label>
- <input type="text"{...register('orderprice', { valueAsNumber: true })} className="input input-bordered w-full bg-gray-100"
-   value = {totalPrice}  />
-     </fieldset>
+</fieldset>
+{/* <fieldset className="fieldset"> 
+  <label className="label font-semibold">Order Price</label> 
+  <input type="text"{...register('orderprice', { valueAsNumber: true })} className="input input-bordered w-full bg-gray-100" value = {totalPrice} /> </fieldset> */}
+
 
 
 

@@ -25,6 +25,7 @@ import ManageUsers from "../Pages/ManageUsers/ManageUsers";
 import AdminRoute from "./AdminRoute";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import MyOrder from "../Pages/Dashboard/MyOrder/MyOrder";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 
 export const router = createBrowserRouter([
   {
@@ -125,7 +126,7 @@ export const router = createBrowserRouter([
     children:[
     
      {
-      path:"allorders",
+      path:"neworder",
       element:<AllOrders/>,
      },
      {
@@ -154,6 +155,10 @@ export const router = createBrowserRouter([
      element: <MyOrder></MyOrder>
         
   },
+  {
+    path:'payment-history',
+    element:<PaymentHistory/>
+  }
       
 
     ]

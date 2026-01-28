@@ -1,11 +1,12 @@
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router'
 import { IoBagCheckOutline } from 'react-icons/io5'
 import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure'
 const PaymentSuccess = () => {
-  const [searchParams] = useSearchParams()
+  const [searchParams] = useSearchParams();
   const AxiosSecure = useAxiosSecure();
+  const[paymentInfo,setPaymentInfo] = useState({});
   const sessionId = searchParams.get('session_id')
    console.log(sessionId);
   useEffect(() => {
@@ -13,6 +14,10 @@ const PaymentSuccess = () => {
         AxiosSecure.patch (`/payment-success?session_id=${sessionId}`)
         .then(res=>{
             console.log(res.data)
+            setPaymentInfo({
+              transactionId: res.data.transactionId,
+              trackingId: res.data.trackingId,
+            })
         })
     }
       
@@ -27,8 +32,10 @@ const PaymentSuccess = () => {
         <p className='text-gray-600 mb-6'>
           Thank you for your purchase. Your order is being processed.
         </p>
+        <p>Your TransactionId : {paymentInfo.transactionId}</p>
+        <p>Your Parcel TrackingId :{paymentInfo.trackingId}</p>
         <Link
-          to='/dashboard/myorder'
+          to='/dashboard/neworder'
           className='inline-block bg-lime-500 text-white font-semibold py-2 px-4 rounded hover:bg-lime-600 transition duration-300'
         >
           Go to My Orders

@@ -3,6 +3,10 @@ import { NavLink } from 'react-router';
 import { Link, Outlet } from 'react-router';
 import { MdOutlineBorderStyle } from "react-icons/md";
 import UseRole from '../Components/Hooks/UseRole';
+import { FaCreditCard } from "react-icons/fa";
+import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { FaBox } from "react-icons/fa";
+import { GrUserManager } from "react-icons/gr";
 
 const DashboardLayout = () => {
   
@@ -40,15 +44,19 @@ const DashboardLayout = () => {
 
               
                 <li>
-            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/manageusers"> <MdOutlineBorderStyle />  <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Manage users" to="/dashboard/manageusers"><GrUserManager />  <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
               </li>
                <li>
-            <NavLink  className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/allorders"> <MdOutlineBorderStyle /><span className="is-drawer-close:hidden">Order</span></NavLink>
+            <NavLink  className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="NewOrder" to="/dashboard/neworder"> <FaBox /><span className="is-drawer-close:hidden">Order</span></NavLink>
         </li>
         <li>
-            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" to="/dashboard/products"> <MdOutlineBorderStyle /> <span className="is-drawer-close:hidden">Products</span></NavLink>
+            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Products" to="/dashboard/products"> <MdOutlineProductionQuantityLimits /><span className="is-drawer-close:hidden">Products</span></NavLink>
         </li> 
-              
+        <li>
+           <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Payment-History" to="/dashboard/payment-history"> <FaCreditCard /> <span className="is-drawer-close:hidden">Payment History</span></NavLink>
+        </li> 
+                
+      
                
 
         

@@ -8,21 +8,27 @@ const Payment = () => {
   const axiosSecure = useAxiosSecure();
   const {user} = UseAuth();
 
-  const { isLoading, data: products } = useQuery({
-    queryKey: ['products', id],
+  const { isLoading, data: neworder } = useQuery({
+    queryKey: ['neworder', id],
     enabled: !!id, // extra safety
     queryFn: async () => {
-      const res = await axiosSecure.get(`/products/${id}`);
+      const res = await axiosSecure.get(`/neworder/${id}`);
       return res.data;
     }
-    
+  
   });
+  console.log("neworder:", neworder);
+
+  // console.log("useParams id:", id);
+  // console.log('products', id);
+  // console.log("Route param id:", id);
+  // console.log("Products from API:", neworder);
   const handlePayment =async ()=>{
     const paymentInfo ={
-    price: products?.price,
-    id: products?._id,
+    price:(neworder?.result?.orderprice),
+    id: neworder?.result?._id,
     senderEmail:user?.email,
-    productName: products?.productName,
+    productName: neworder?.result?.productName,
 
   }
   console.log("paymentInfo:", paymentInfo);
@@ -45,7 +51,10 @@ const Payment = () => {
 
   return (
     <div>
-      <h2>Pay please ${products?.price}: {products?.productName}</h2>
+      <h2>
+  Pay please ${neworder?.result?.orderprice}: {neworder?.result?.productName}
+</h2>
+
       <button onClick={handlePayment} className='btn btn-primary text-black'>Pay</button>
     </div>
   );
