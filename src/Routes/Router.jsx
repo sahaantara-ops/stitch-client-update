@@ -26,6 +26,8 @@ import AdminRoute from "./AdminRoute";
 import Payment from "../Pages/Dashboard/Payment/Payment";
 import MyOrder from "../Pages/Dashboard/MyOrder/MyOrder";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
+import PendingOrders from "../Pages/Dashboard/PendingOrders/PendingOrders";
+import ApprovedOrders from "../Pages/Dashboard/ApprovedOrders/ApprovedOrders";
 
 export const router = createBrowserRouter([
   {
@@ -126,7 +128,7 @@ export const router = createBrowserRouter([
     children:[
     
      {
-      path:"neworder",
+      path:"allorders",
       element:<AllOrders/>,
      },
      {
@@ -158,6 +160,14 @@ export const router = createBrowserRouter([
   {
     path:'payment-history',
     element:<PaymentHistory/>
+  },
+  {
+    path:'pendingorders',
+    element:<PendingOrders/>
+  },
+  {
+    path:'approvedorders',
+    element:<ApprovedOrders/>
   }
       
 

@@ -42,11 +42,12 @@ const AuthProvider = ({children}) => {
 
       setUser(currentUser);
       setLoading(false);
+      console.log(currentUser)
     })
-    return ()=>
+    return ()=>{
       unSubscribe();
     
-
+    }
    },[])
 
     const authInfo = {

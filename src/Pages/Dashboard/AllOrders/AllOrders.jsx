@@ -31,10 +31,12 @@ const AllOrders = () => {
         
         <th>Product Name</th>
         <th>Quantity</th>
+        <th>TrackingId</th>
         <th>Status</th>
          <th>Payment</th>
         <th>Action</th>
         <th>View</th>
+        
       </tr>
     </thead>
     <tbody>
@@ -43,7 +45,10 @@ const AllOrders = () => {
         <th>{products._id}</th>
         <td>{products.productName}</td>
         <td>{products.orderQuantity}</td>
+        <td>{products.trackingId}</td>
         <td>{products.productStatus}</td>
+        
+        
          <td>
         {
           products.payment_status === 'paid'?

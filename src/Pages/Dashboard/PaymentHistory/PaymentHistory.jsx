@@ -7,49 +7,40 @@ const PaymentHistory = () => {
     const {user} = UseAuth();
     const axiosSecure = useAxiosSecure();
     const {data:payments = []} = useQuery({
-        queryKey: ['payments',user.email],
+        queryKey: ['payments',user?.email],
+        enabled: !!user?.email,
         queryFn: async()=>{
-            const res = await axiosSecure.get(`/payments?email=${user.email}`)
+            const res = await axiosSecure.get(`/payments?email=${user.email}`);
             return res.data;
         }
-
     })
+    console.log("Fetching payments for:", user?.email);
     return (
         <div>
             <h2 className='text-5xl'>Payment History:{payments.length}</h2>
             <div className="overflow-x-auto">
+  
+</div>
+<div className="overflow-x-auto">
   <table className="table table-zebra">
     {/* head */}
     <thead>
       <tr>
         <th></th>
         <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
+        <th>Amount</th>
+        <th>Transaction Id</th>
       </tr>
     </thead>
     <tbody>
-      {/* row 1 */}
-      <tr>
-        <th>1</th>
-        <td>Cy Ganderton</td>
-        <td>Quality Control Specialist</td>
-        <td>Blue</td>
-      </tr>
-      {/* row 2 */}
-      <tr>
-        <th>2</th>
-        <td>Hart Hagerty</td>
-        <td>Desktop Support Technician</td>
-        <td>Purple</td>
-      </tr>
-      {/* row 3 */}
-      <tr>
-        <th>3</th>
-        <td>Brice Swyre</td>
-        <td>Tax Accountant</td>
-        <td>Red</td>
-      </tr>
+      {payments.map((payment,index) =><tr key={payment._id} >
+        <th>{index + 1}</th>
+        <td>{payment.customerEmail}</td>
+        <td>${payment.amount}</td>
+        <td>{payment.transactionId}</td>
+      </tr> )}
+     
+    
     </tbody>
   </table>
 </div>
