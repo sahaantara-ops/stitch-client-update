@@ -11,13 +11,7 @@ const AdminRoute = ({ children }) => {
     return<p>Loading...</p>
   }
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
- 
-
-  if (role !== 'admin') {
+if (role !== 'admin') {
     return <Navigate to="/" replace />;
   }
 

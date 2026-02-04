@@ -24,10 +24,11 @@ import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
 import ManageUsers from "../Pages/ManageUsers/ManageUsers";
 import AdminRoute from "./AdminRoute";
 import Payment from "../Pages/Dashboard/Payment/Payment";
-import MyOrder from "../Pages/Dashboard/MyOrder/MyOrder";
+
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
 import PendingOrders from "../Pages/Dashboard/PendingOrders/PendingOrders";
 import ApprovedOrders from "../Pages/Dashboard/ApprovedOrders/ApprovedOrders";
+import MyProfile from "../Pages/Dashboard/My Profile/My Profile";
 
 export const router = createBrowserRouter([
   {
@@ -129,11 +130,11 @@ export const router = createBrowserRouter([
     
      {
       path:"allorders",
-      element:<AllOrders/>,
+      element: <AdminRoute><AllOrders/></AdminRoute>
      },
      {
         path:"products",
-       element:<AllProducts/>,
+       element:<AdminRoute><AllProducts/></AdminRoute>,
     },
     {
     path:  "edit-product/:id",
@@ -141,7 +142,7 @@ export const router = createBrowserRouter([
     },
     {
      path: "manageusers",
-     element:<ManageUsers/>
+     element: <ManageUsers/> 
         
     },
     {
@@ -152,11 +153,7 @@ export const router = createBrowserRouter([
        path:"payment-success",
        element:<PaymentSuccess/>
    },
-    {
-    path:'myorder',
-     element: <MyOrder></MyOrder>
-        
-  },
+    
   {
     path:'payment-history',
     element:<PaymentHistory/>
@@ -168,7 +165,12 @@ export const router = createBrowserRouter([
   {
     path:'approvedorders',
     element:<ApprovedOrders/>
-  }
+  },
+  {
+  path: 'myprofile',
+  element: <MyProfile/>
+}
+
       
 
     ]

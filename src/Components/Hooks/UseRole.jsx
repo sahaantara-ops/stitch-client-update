@@ -3,19 +3,19 @@ import UseAuth from "./useAuth";
 import useAxiosSecure from "./useAxiosSecure";
 
 const UseRole = () => {
-  const { user } = UseAuth(); // ✅ CALL the hook
+  const { user } = UseAuth(); 
   const axiosSecure = useAxiosSecure();
 
-  const { data: role='user', isLoading } = useQuery({
+  const { data: role='user', isLoading:roleLoading } = useQuery({
     queryKey: ["userRole", user?.email],
-    enabled: !!user?.email, // ✅ prevent undefined call
+    enabled: !!user?.email, 
     queryFn: async () => {
       const res = await axiosSecure.get(`/users/${user.email}/role`);
       return res.data?.role || 'user'; // return only role
     },
   });
 
-  return { role, isLoading }; // ✅ proper return
+  return { role, roleLoading }; 
 };
 
 export default UseRole;

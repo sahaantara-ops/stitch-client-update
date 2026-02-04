@@ -5,12 +5,20 @@ import UseAuth from '../../../Components/Hooks/useAuth';
 import { Link, Navigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { useLocation } from 'react-router';
+;
+
+
+
+
+
 
 const Login = () => {
-  const {register,handleSubmit, formState:{errors}} = useForm();
-  const{signInUser,user} = UseAuth();
+  const {register,handleSubmit,watch, formState:{errors}} = useForm();
+  const { signInUser, resetPassword, user } = UseAuth();
+
   
   const location = useLocation();
+    const email = watch('email'); 
 
   const from = location.state || '/'
   if (user) return <Navigate to={from} replace={true}></Navigate>
@@ -40,8 +48,15 @@ const Login = () => {
         
         <fieldset className="fieldset">
           <label className="label">Email</label>
-          <input type="email" {...register('email', {required:true})} className="input" placeholder="Email" />
-           {errors.email?.type==='required'&&<p className='text-amber-500'>Email is required.</p>}
+              <input
+                type="email"
+                {...register('email', { required: true })}
+                className="input"
+                placeholder="Email"
+              />
+              {errors.email?.type === 'required' && (
+                <p className='text-amber-500'>Email is required.</p>
+              )}
           <label className="label">Password</label>
           <input type="password" {...register('password')} className="input" placeholder="Password" />
                     {
@@ -56,7 +71,21 @@ const Login = () => {
                     }
           
           
-          <div><a className="link link-hover">Forgot password?</a></div>
+       <p
+                className="link link-hover text-blue-600 mt-2"
+                onClick={() => {
+                  if (!email) {
+                    alert('Please enter your email first');
+                    return;
+                  }
+                  resetPassword(email)
+                    .then(() => alert('Password reset email sent'))
+                    .catch(err => alert(err.message));
+                }}
+              >
+                Forgot password?
+              </p>
+
           <button className="btn btn-neutral bg-lime-900 mt-4">Login</button>
           <p>If you are a newcomer please, feel free to <Link className='text-amber-800 underline' to='/register'> register</Link> </p>
         </fieldset>

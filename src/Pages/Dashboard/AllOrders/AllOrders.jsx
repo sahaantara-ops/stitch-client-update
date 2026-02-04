@@ -9,16 +9,23 @@ const AllOrders = () => {
   const axiosSecure = useAxiosSecure();
 
   console.log('Logged in user email:', user?.email);
-   
-  const {data: neworder = []} = useQuery({
-    queryKey:['allorders', user?.email],
-    queryFn :  async ()=>{
-        const res = await axiosSecure.get(`/neworder?email=${user?.email}`);
-        console.log(res.data);
-        return res.data;
-    }
-  })
 
+  
+  const { data: neworder = [] } = useQuery({
+  queryKey: ['my-orders', user?.email],
+  queryFn: async () => {
+    const res = await axiosSecure.get(`/neworder?email=${user.email}`);
+    return res.data.map(neworder => ({
+      ...neworder,
+      normalizedPaymentStatus:
+        typeof neworder.payment_status === 'string'
+          ? neworder.payment_status
+          : neworder.payment_status?.status
+    }));
+  }
+});
+
+  console.log(neworder.productStatus);
   return (
     <div>
       <h2> All of my orders : {neworder.length}</h2>
@@ -51,7 +58,7 @@ const AllOrders = () => {
         
          <td>
         {
-          products.payment_status === 'paid'?
+         products.normalizedPaymentStatus === 'paid'?
           <span className="text-green-600 font-bold">Paid</span> :
           <Link to={`/dashboard/payment/${products._id}`}><button className="btn btn-sm btn-primary">Pay</button></Link>
         }

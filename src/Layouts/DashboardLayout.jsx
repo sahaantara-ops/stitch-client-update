@@ -9,11 +9,15 @@ import { FaBox } from "react-icons/fa";
 import { GrUserManager } from "react-icons/gr";
 import { MdPendingActions } from "react-icons/md";
 import { FcApproval } from "react-icons/fc";
+import { SiBookmyshow } from "react-icons/si";
+import { MdAccountCircle } from "react-icons/md";
+import useRole from '../Components/Hooks/UseRole';
+
 
 
 const DashboardLayout = () => {
-  
-  
+     const {role} = useRole ();
+     
     return (
        <div className="drawer lg:drawer-open">
   <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -49,22 +53,35 @@ const DashboardLayout = () => {
                 <li>
             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Manage users" to="/dashboard/manageusers"><GrUserManager />  <span className="is-drawer-close:hidden">Manage Users</span></NavLink>
               </li>
-               <li>
+             {
+               role === 'admin' &&   <>
+                <li>
             <NavLink  className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="AllOrders" to="/dashboard/allorders"> <FaBox /><span className="is-drawer-close:hidden">Order</span></NavLink>
         </li>
         <li>
             <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Products" to="/dashboard/products"> <MdOutlineProductionQuantityLimits /><span className="is-drawer-close:hidden">Products</span></NavLink>
-        </li> 
+        </li>
         <li>
            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Payment-History" to="/dashboard/payment-history"> <FaCreditCard /> <span className="is-drawer-close:hidden">Payment History</span></NavLink>
         </li> 
-         <li>
+         </>
+             }
+
+
+             <li>
            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Pending Orders" to="/dashboard/pendingorders"> <MdPendingActions /> <span className="is-drawer-close:hidden">Payment Orders</span></NavLink>
         </li>
         <li>
            <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="Approved Orders" to="/dashboard/approvedorders"> <FcApproval /> <span className="is-drawer-close:hidden">Approved Orders</span></NavLink>
         </li>
-      
+             
+             
+        
+         
+         
+      <li>
+           <NavLink className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip ="My Profile" to="/dashboard/myprofile"> <MdAccountCircle /> <span className="is-drawer-close:hidden">My Profile</span></NavLink>
+        </li>
                
 
         

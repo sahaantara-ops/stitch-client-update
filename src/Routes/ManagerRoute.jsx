@@ -1,31 +1,21 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import UseAuth from '../Components/Hooks/useAuth';
-import UseRole from '../Components/Hooks/UseRole';
- 
-const user = UseAuth();
-const AdminRoute = ({ children }) => {
-  const {  loading } = UseAuth();
-  const {role, roleLoading} = UseRole();
+import { Navigate, useLocation } from "react-router-dom";
+import UseAuth from "../hooks/UseAuth";
+import useManager from "../hooks/useManager";
 
-  if(loading || roleLoading){
-    return<p>Loading...</p>
-  }
-  if (!user) {
-    return <Navigate to="/login" />; // not logged in
+const ManagerRoute = ({ children }) => {
+  const { user, loading } = UseAuth();
+  const [isManager, isManagerLoading] = useManager();
+  const location = useLocation();
+
+  if (loading || isManagerLoading) {
+    return <div className="text-center">Loading...</div>;
   }
 
-  if (loading) {
-    return <p>Loading...</p>;
+  if (user && isManager) {
+    return children;
   }
 
- 
-
-  if (role !== 'manager') {
-    return <Navigate to="/" replace />;
-  }
-
-  return children;
+  return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
-export default AdminRoute;
+export default ManagerRoute;

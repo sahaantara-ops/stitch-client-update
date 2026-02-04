@@ -35,7 +35,7 @@ const PaymentSuccess = () => {
         <p>Your TransactionId : {paymentInfo.transactionId}</p>
         <p>Your Parcel TrackingId :{paymentInfo.trackingId}</p>
         <Link
-          to='/dashboard/allorder'
+          to='/dashboard/allorders'
           className='inline-block bg-lime-500 text-white font-semibold py-2 px-4 rounded hover:bg-lime-600 transition duration-300'
         >
           Go to My Orders

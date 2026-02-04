@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useAxiosSecure from '../../../Components/Hooks/useAxiosSecure';
 import { useQuery } from '@tanstack/react-query';
 import { FcApproval } from "react-icons/fc";
@@ -6,11 +6,17 @@ import { MdCancel } from "react-icons/md";
 import { MdPreview } from "react-icons/md";
 import UseAuth from '../../../Components/Hooks/useAuth';
 import Swal from 'sweetalert2';
+import { useRef } from "react";
+import { Link } from 'react-router';
+
+
 const PendingOrders = () => {
-    const axiosSecure = useAxiosSecure();
     const {user} = UseAuth();
+    const [order,setOrder] = useState(null);
+    const axiosSecure = useAxiosSecure();
     
-    const {data: allorders = []} = useQuery({
+    
+    const {data: allorders = [],refetch} = useQuery({
         queryKey: ['allorders','pendingOrders'],
         queryFn: async()=>{
             const res =  await axiosSecure.get(`/allorders?productStatus=Suspended`)
@@ -18,23 +24,33 @@ const PendingOrders = () => {
         
         }
     });
-        const updateStatus = (allorder,productStatus) =>{
-            const updateInfo = {status:productStatus ,email:user.email}
-            axiosSecure.patch(`/allorders/${allorder._id}`,updateInfo)
-            .then(res=>{
-                if(res.data.modifiedCount){
-                    refetch();
-                    Swal.fire({
-                        position:"top-end",
-                        icon:"Success",
-                        title:`Status is set to ${productStatus}`,
-                        showConfirmButton:false,
-                        Timer:2000
+       const handleUpdateStatus = (allorder, productStatus) => {
+  const updateInfo = { status: productStatus, email: user.email };
 
-                    })
-                }
-            })
-        }
+  axiosSecure.patch(`/allorders/${allorder._id}`, updateInfo)
+    .then(res => {
+      if (res.data.modifiedCount) {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: `Status set to ${productStatus}`,
+          showConfirmButton: false,
+          timer: 2000
+        });
+        handleUpdateStatus(order, "Approved"); 
+        refetch(); 
+      }
+    });
+};
+
+         const modalRef = useRef(null);
+
+  const openModal = allorder => {
+    setOrder(allorder)
+    if (modalRef.current) {
+      modalRef.current?.showModal();
+    }
+  };
     return (
         <div>
             <h2>Pending Orders:{allorders.length}</h2>
@@ -60,9 +76,32 @@ const PendingOrders = () => {
         <td>{allorder.orderQuantity}</td>
         <td>{allorder.createdAt}</td>
         <td>{allorder.productStatus}</td>
-         <td><button  className="btn btn-warning hover:bg-amber-300"><MdPreview /></button></td>
-        <td><button  className="btn btn-warning hover:bg-amber-300"><FcApproval />Approaved</button></td>
-         <td><button  className="btn btn-warning hover:bg-amber-300"><MdCancel />Reject</button></td>
+         <td><Link to={`/product-details/${allorder._id}`} className="btn btn-warning hover:bg-amber-300"><MdPreview /></Link></td>
+       <td>
+  {allorder.productStatus === 'Approved' ? (
+    <span className="text-green-600 font-bold">Approved</span>
+  ) : (
+    <button
+      onClick={() => openModal(allorder)}
+      className="btn btn-warning hover:bg-amber-300"
+    >
+      <FcApproval /> Approve
+    </button>
+  )}
+</td>
+
+    <td>
+  <button
+    disabled={allorder.productStatus === 'Approved'}
+    onClick={() => handleUpdateStatus(allorder, "Rejected")}
+    className="btn btn-warning hover:bg-amber-300"
+  >
+    <MdCancel /> Reject
+  </button>
+</td>
+
+
+
       </tr>
       )}
     
@@ -70,6 +109,42 @@ const PendingOrders = () => {
     </tbody>
   </table>
 </div>
+
+
+<dialog ref={modalRef} className="modal modal-bottom sm:modal-middle">
+  <div className="modal-box">
+    <h3 className="font-bold text-lg">Confirm Approval</h3>
+
+    <p className="py-4">
+      Are you sure you want to approve
+      <span className="font-semibold">
+        {" "}{order?.productName}
+      </span>
+      ?
+    </p>
+
+    <div className="modal-action">
+      <button
+        className="btn btn-success"
+        onClick={() => {
+          handleUpdateStatus(order, "Approve");
+          modalRef.current.close();
+        }}
+      >
+        Approve
+      </button>
+
+      <button
+        className="btn"
+        onClick={() => modalRef.current.close()}
+      >
+        Cancel
+      </button>
+    </div>
+  </div>
+</dialog>
+
+
         </div>
         
     );
