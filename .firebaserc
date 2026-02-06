@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "stitch-tracker-client",
+    "prod": "stitch-tracker-client"
+  },
+  "targets": {},
+  "etags": {}
+}

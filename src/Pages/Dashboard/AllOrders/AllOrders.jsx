@@ -5,16 +5,25 @@ import { MdEdit } from "react-icons/md";
 import { MdPreview } from "react-icons/md";
 import { Link } from 'react-router';
 const AllOrders = () => {
-  const { user } = UseAuth();
+  const { user,loading: userLoading} = UseAuth();
   const axiosSecure = useAxiosSecure();
 
   console.log('Logged in user email:', user?.email);
 
   
-  const { data: neworder = [] } = useQuery({
+  const { data: neworder = [],isLoading } = useQuery({
   queryKey: ['my-orders', user?.email],
+   enabled: !!user?.email && !userLoading,
   queryFn: async () => {
-    const res = await axiosSecure.get(`/neworder?email=${user.email}`);
+    console.log("Fetching orders for email:", user?.email); // ← add this
+
+    if (!user?.email) {
+      throw new Error("User email missing – query should not have run");
+    }
+    const res = await axiosSecure.get(`/neworder`, {
+      params: { email: user?.email }               // ← better way: use params object
+    });
+    
     return res.data.map(neworder => ({
       ...neworder,
       normalizedPaymentStatus:
@@ -25,7 +34,18 @@ const AllOrders = () => {
   }
 });
 
-  console.log(neworder.productStatus);
+  
+
+
+  if (userLoading || isLoading) {
+    return <div className="text-center p-4">Loading orders...</div>;
+  }
+  if (!user?.email) {
+  return <div className="text-center p-4 text-red-600">Please log in to view orders.</div>;
+}
+
+ 
+
   return (
     <div>
       <h2> All of my orders : {neworder.length}</h2>

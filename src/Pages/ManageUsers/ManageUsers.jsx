@@ -3,6 +3,8 @@ import useAxiosSecure from "../../Components/Hooks/useAxiosSecure";
 import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 import { FaUsersSlash } from "react-icons/fa";
+import UseAuth from "../../Components/Hooks/useAuth";
+
 const ManageUsers = () => {
   const axiosSecure = useAxiosSecure();
   
@@ -12,13 +14,18 @@ const ManageUsers = () => {
 
 
 
-  const { refetch,data: users = [],  isLoading } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/users`);
-      return res.data ;
-    }
-  });
+ 
+const { user } = UseAuth();
+
+const { refetch, data: users = [], isLoading } = useQuery({
+  queryKey: ["users"],
+  queryFn: async () => {
+    const res = await axiosSecure.get(`/users`);
+    return res.data;
+  },
+  enabled: !!user, // only run when user is logged in
+});
+
 
 const handleMakeAdmin = (user) => {
   const roleInfo = {role: 'admin'}

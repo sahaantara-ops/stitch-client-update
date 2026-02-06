@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import UseAuth from './useAuth';
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000'
+  baseURL: 'https://stitch-track-server.vercel.app'
 ,
 });
 
@@ -18,7 +18,7 @@ const useAxiosSecure = () => {
       async (config) => {
 
         if (user) {
-          const token = await user?.getIdToken(); 
+          const token = await user?.getIdToken(true); 
           config.headers.authorization = `Bearer ${token}`;
         }
 
