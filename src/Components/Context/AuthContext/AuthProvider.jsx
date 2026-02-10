@@ -4,16 +4,34 @@ import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndP
 import { auth } from '../../Firebase/Firebase.init';
 import { GoogleAuthProvider } from 'firebase/auth';
 import { sendPasswordResetEmail } from 'firebase/auth';
-
+import { setPersistence, browserLocalPersistence } from "firebase/auth";
 import { useState } from 'react';
+import { Navigate } from "react-router-dom";
+
+
+
 
 
 
 const googleProvider = new GoogleAuthProvider()
 
+
 const AuthProvider = ({children}) => {
   const [user,setUser] = useState(null);
   const[loading,setLoading] = useState(true)
+
+
+    useEffect(() => {
+    setPersistence(auth, browserLocalPersistence).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
    const registerUser = (email,password)=>{
     setLoading(true)
@@ -41,18 +59,29 @@ const AuthProvider = ({children}) => {
   setLoading(true);
   return sendPasswordResetEmail(auth, email);
 };
+
   useEffect (()=>{
     const unSubscribe = onAuthStateChanged(auth, (currentUser)=>{
-
+      console.log("Firebase currentUser:", currentUser);
       setUser(currentUser);
       setLoading(false);
-      console.log(currentUser)
+      console.log(currentUser?.email)
     })
     return ()=>{
       unSubscribe();
     
     }
    },[])
+//  if (loading) {
+//   return <div>Loading...</div>; // or a spinner
+// }
+
+// if (!user) {
+//   return <Navigate to="/login" replace />;
+//  }
+
+// console.log("AuthProvider user (after loading):", user);
+
 
     const authInfo = {
         user,
@@ -66,6 +95,7 @@ const AuthProvider = ({children}) => {
 
 
     }
+    console.log(authInfo.user?.email);
     return (
       <AuthContext.Provider value={authInfo}>
         {children}

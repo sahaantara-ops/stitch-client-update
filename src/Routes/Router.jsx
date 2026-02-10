@@ -1,185 +1,77 @@
-
-import { createBrowserRouter } from "react-router";
+import { createBrowserRouter } from "react-router-dom";
 import RootLayout from "../Layouts/RootLayout";
-import Home from "../Pages/Home/Home/Home";
 import AuthLayout from "../Layouts/AuthLayout";
+import DashboardLayout from "../Layouts/DashboardLayout";
+import ErrorPage from "../Pages/Errorpage/Errorpage";
+
+import Home from "../Pages/Home/Home/Home";
 import Login from "../Pages/Auth/Login/Login";
 import Register from "../Pages/Auth/Register/Register";
 import ServicesSection from "../Pages/Servicesection/Servicesection";
-import ErrorPage from "../Pages/Errorpage/Errorpage";
-
-
-import NewOrder from "../Pages/NewOrder/NewOrder";
-import PrivateRoutes from './PrivateRoutes'
-
-import AllProductsLayout from "../Layouts/AllProductsLayout";
-import ProductDetails from "../Components/ProductDetails/ProductDetails";
-import PaymentSuccess from "../Pages/Dashboard/Payment/PaymentSuccess";
-import DashboardLayout from "../Layouts/DashboardLayout";
-;
-import AllOrders from "../Pages/Dashboard/AllOrders/AllOrders";
 import Products from "../Pages/Products/Products";
-import AllProducts from "../Pages/Dashboard/AllProducts/AllProducts";
-import EditProducts from "../Pages/Dashboard/EditProducts/EditProducts";
-import ManageUsers from "../Pages/ManageUsers/ManageUsers";
+import ProductDetails from "../Components/ProductDetails/ProductDetails";
+import NewOrder from "../Pages/NewOrder/NewOrder";
+import AllOrders from "../Pages/Dashboard/AllOrders/AllOrders"
+import PrivateRoutes from "./PrivateRoutes";
 import AdminRoute from "./AdminRoute";
-import Payment from "../Pages/Dashboard/Payment/Payment";
-
-import PaymentHistory from "../Pages/Dashboard/PaymentHistory/PaymentHistory";
-import PendingOrders from "../Pages/Dashboard/PendingOrders/PendingOrders";
-import ApprovedOrders from "../Pages/Dashboard/ApprovedOrders/ApprovedOrders";
-import MyProfile from "../Pages/Dashboard/My Profile/My Profile";
-
+import AllProducts from "../Pages/Products/Products"
+import ManageUser from "../Pages/ManageUsers/ManageUsers"
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <RootLayout />,
     errorElement: <ErrorPage />,
-    children:[
-      {
-        index:true,
-        element: <Home />,
+    children: [
+      { index: true, element: <Home /> },
 
-      }
-    ]
-  },
-  {
-    path:"/",
-   
-    element:<AuthLayout/>,
-    children:[
-      {
-        path:'login',
-        
-        element:<Login/>,
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
 
+      { path: "servicesection", element: <ServicesSection /> },
+
+      {
+        path: "products",
+        element: <Products />,
+        loader: async () => {
+          const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/products`
+          );
+          if (!res.ok) throw new Response("Failed to load products");
+          return res.json();
+        },
       },
+
       {
-        path:'Register',
-        
-        element:<Register/>,
-      }
-    ]
-  },
-  {
-    path:"/servicesection",
-   
-    element:<ServicesSection/>,
-  },
- 
-  {
-    path:"/",
-    element:<AllProductsLayout/>,
-    children:[
+        path: "product-details/:id",
+        element: (
+          <PrivateRoutes>
+            <ProductDetails />
+          </PrivateRoutes>
+        ),
+      },
+
       {
-          path:"/products",
-    element:<Products/>,
-    loader: async () => {
-  const res = await fetch("http://localhost:5000/products");
+        path: "neworder/:id",
+        element: (
+          <PrivateRoutes>
+            <NewOrder />
+          </PrivateRoutes>
+        ),
+      },
 
-  if (!res.ok) {
-    throw new Response("Failed to load products", {
-      status: res.status,
-    });
-  }
-
-  return res.json();
-}
-
-      }
-    ]
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoutes>
+            <DashboardLayout />
+          </PrivateRoutes>
+        ),
+        children: [
+          { path: "allorders", element: <AdminRoute><AllOrders /></AdminRoute> },
+          { path: "products", element: <AdminRoute><AllProducts /></AdminRoute> },
+          { path: "manageusers", element:<AdminRoute> <ManageUser /></AdminRoute>  },
+        ],
+      },
+    ],
   },
-    
-  {
-    path:"/product-details/:id",
-    element:<PrivateRoutes> 
-             <ProductDetails/>
-           </PrivateRoutes>,
-  
-    
-  
-  loader: ({params}) => fetch(`http://localhost:5000/products/${params.id}`)
-  },
- 
-
- 
-    
-  
-{
-  path: "/neworder/:id",
-  element: (
-    <PrivateRoutes>
-      <NewOrder />
-    </PrivateRoutes>
-  ),
-  loader: async ({ params }) => {
-    const res = await fetch(`http://localhost:5000/products/${params.id}`);
-
-    if (!res.ok) {
-      throw new Response("Product not found", { status: res.status });
-    }
-
-    return res.json();
-  }
-},
-
-{
-  path:"/dashboard",
-  element:<PrivateRoutes><DashboardLayout/></PrivateRoutes>,
-    children:[
-    
-     {
-      path:"allorders",
-      element: <AdminRoute><AllOrders/></AdminRoute>
-     },
-     {
-        path:"products",
-       element:<AdminRoute><AllProducts/></AdminRoute>,
-    },
-    {
-    path:  "edit-product/:id",
-    element: <EditProducts/>
-    },
-    {
-     path: "manageusers",
-     element: <ManageUsers/> 
-        
-    },
-    {
-      path:"payment/:id",
-      element:<Payment></Payment>
-    },
-    {
-       path:"payment-success",
-       element:<PaymentSuccess/>
-   },
-    
-  {
-    path:'payment-history',
-    element:<PaymentHistory/>
-  },
-  {
-    path:'pendingorders',
-    element:<PendingOrders/>
-  },
-  {
-    path:'approvedorders',
-    element:<ApprovedOrders/>
-  },
-  {
-  path: 'myprofile',
-  element: <MyProfile/>
-}
-
-      
-
-    ]
-
-}
-
-
-
-
-
-
 ]);

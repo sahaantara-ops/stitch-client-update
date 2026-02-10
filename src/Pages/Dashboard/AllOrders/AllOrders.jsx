@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 const AllOrders = () => {
   const { user,loading: userLoading} = UseAuth();
   const axiosSecure = useAxiosSecure();
+  
 
   console.log('Logged in user email:', user?.email);
 
@@ -15,14 +16,13 @@ const AllOrders = () => {
   queryKey: ['my-orders', user?.email],
    enabled: !!user?.email && !userLoading,
   queryFn: async () => {
-    console.log("Fetching orders for email:", user?.email); // ← add this
+    console.log("Fetching orders for email:",user?.email); // ← add this
 
     if (!user?.email) {
       throw new Error("User email missing – query should not have run");
     }
-    const res = await axiosSecure.get(`/neworder`, {
-      params: { email: user?.email }               // ← better way: use params object
-    });
+    const res = await axiosSecure.get(`/neworder?email=${user?.email}`);
+
     
     return res.data.map(neworder => ({
       ...neworder,

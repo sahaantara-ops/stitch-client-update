@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth,setPersistence, browserLocalPersistence} from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -14,9 +14,17 @@ const firebaseConfig = {
   appId:  import.meta.env.VITE_appId,
 };
 
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // Initialize Firebase Authentication and get a reference to the service
 export const auth = getAuth(app);
+
+// ✅ Set persistence to local (keeps user logged in across refreshes)
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Firebase auth persistence set to local");
+  })
+  .catch((error) => {
+    console.error("Failed to set auth persistence:", error);
+  });

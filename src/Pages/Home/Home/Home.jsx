@@ -6,7 +6,7 @@ import Reviews from './Reviews/Reviews';
 import Products from '../../../Components/Products/Products';
 
 
-const reviewsPromise = fetch('/public/Public.json').then(res=>res.json())
+const reviewsPromise = fetch('/Public.json').then(res=>res.json())
 
 const Home = () => {
     return (

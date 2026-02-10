@@ -13,7 +13,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
 
     <QueryClientProvider client={queryClient}>
-    <AuthProvider>
+    
     <RouterProvider router={router} />,
     <ToastContainer
      position="top-right"
@@ -23,7 +23,7 @@ createRoot(document.getElementById('root')).render(
           pauseOnHover
           draggable
           theme="colored" />
-    </AuthProvider>
+    
     </QueryClientProvider>
   
     

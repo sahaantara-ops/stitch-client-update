@@ -1,6 +1,6 @@
 import React, { Children } from 'react';
 import UseAuth from '../Components/Hooks/useAuth';
-import { Navigate } from 'react-router';
+import { Navigate } from 'react-router-dom';
 
 const PrivateRoutes = ({children}) => {
 
@@ -14,9 +14,10 @@ const PrivateRoutes = ({children}) => {
 <span className="loading loading-ball loading-xl"></span>
         </div>
     }
-
+    console.log(user);
     if(!user){
         return <Navigate to='/login'></Navigate>
+
     }
     return children
 };

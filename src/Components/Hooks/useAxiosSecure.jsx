@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import UseAuth from './useAuth';
 
 const axiosSecure = axios.create({
-  baseURL: 'https://stitch-track-server.vercel.app'
+  baseURL: import.meta.env.VITE_API_URL
 ,
 });
 
@@ -20,12 +20,14 @@ const useAxiosSecure = () => {
         if (user) {
           const token = await user?.getIdToken(true); 
           config.headers.authorization = `Bearer ${token}`;
+          console.log(token);
         }
-
+        
         return config;
     },
      (error) => Promise.reject(error)
 );
+
 
  const resInterceptor = axiosSecure.interceptors.response.use(
     (response) => response,
