@@ -14,7 +14,7 @@ import { useLocation } from 'react-router';
 
 const Login = () => {
   const {register,handleSubmit,watch, formState:{errors}} = useForm();
-  const { signInUser, resetPassword, user } = UseAuth();
+  const { signInUser, resetPassword, user } = UseAuth() || {};
 
   
   const location = useLocation();

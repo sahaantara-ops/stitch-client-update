@@ -8,7 +8,7 @@ const SocialLogin = () => {
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure();
 
-    const {signInGoogle} = UseAuth();
+    const {signInGoogle} = UseAuth() || {};
 
     const handleGoogleSignIn = ()=>{
         signInGoogle().then(result =>{

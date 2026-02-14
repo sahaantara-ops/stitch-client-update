@@ -8,11 +8,11 @@ const RootLayout = () => {
     return (
         <div className='max-w-7xl mx-auto'>
             
-            <AuthProvider>
+           
             <Navbar></Navbar>
              <Outlet></Outlet>
              <Footer></Footer>
-            </AuthProvider>
+           
             
             
         </div>

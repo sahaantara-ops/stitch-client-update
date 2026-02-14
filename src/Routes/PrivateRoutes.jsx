@@ -4,7 +4,8 @@ import { Navigate } from 'react-router-dom';
 
 const PrivateRoutes = ({children}) => {
 
-    const {user,loading}= UseAuth();
+    const { user, loading } = UseAuth() || {};
+
     if(loading){
         return<div>
  <span className="loading loading-ball loading-xs"></span>

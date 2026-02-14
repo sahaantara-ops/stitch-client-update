@@ -12,6 +12,7 @@ const ProductDetails = () => {
     const {user,role} = useContext(AuthContext);
      const data = useLoaderData();
   const model = data?.result;
+  console.log(user);
 
   const canOrder = user && role !== "admin" && role !== "manager";
 
