@@ -23,15 +23,25 @@ const AuthProvider = ({children}) => {
 
     useEffect(() => {
     setPersistence(auth, browserLocalPersistence).catch(console.error);
-  }, []);
 
-  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log('Firebase currentUser:', currentUser);
       setUser(currentUser);
       setLoading(false);
     });
-    return unsubscribe;
+
+    return () => unsubscribe();
   }, []);
+   useEffect(() => {
+  if (user) {
+    // Firebase user is available
+    console.log('Firebase currentUser:', user);
+    console.log('Email:', user?.email); // should now show actual email
+  } else {
+    console.log('No user logged in yet');
+  }
+}, [user]);
+
 
    const registerUser = (email,password)=>{
     setLoading(true)
@@ -60,21 +70,13 @@ const AuthProvider = ({children}) => {
   return sendPasswordResetEmail(auth, email);
 };
 
-  useEffect (()=>{
-    const unSubscribe = onAuthStateChanged(auth, (currentUser)=>{
-      console.log("Firebase currentUser:", currentUser);
-      setUser(currentUser);
-      setLoading(false);
-      console.log(currentUser?.email)
-    })
-    return ()=>{
-      unSubscribe();
-    
-    }
-   },[])
-//  if (loading) {
-//   return <div>Loading...</div>; // or a spinner
-// }
+ 
+if (loading) {
+  console.log('Loading Firebase user...');
+} else {
+  console.log('Current user email:', user?.email);
+}
+
 
 // if (!user) {
 //   return <Navigate to="/login" replace />;
@@ -95,7 +97,7 @@ const AuthProvider = ({children}) => {
 
 
     }
-    console.log(authInfo.user?.email);
+    console.log(authInfo?.user?.email);
     return (
       <AuthContext.Provider value={authInfo}>
         {children}

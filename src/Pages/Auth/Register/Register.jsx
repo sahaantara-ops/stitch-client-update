@@ -15,6 +15,7 @@ const Register = () => {
       const navigate = useNavigate();
       const location = useLocation();
       const axiosSecure = useAxiosSecure();
+      const { loading } = UseAuth();
       
 
   const from = location.state?.pathname || '/'
@@ -34,8 +35,8 @@ const Register = () => {
 
     const handleRegistration = (data)=>{
        
-        const profileImg = data.photo[0];
-        registerUser(data.email,data.password)
+        const profileImg = data?.photo[0];
+        registerUser(data?.email,data?.password)
         .then(() => {
           
           const formData = new FormData();
@@ -46,12 +47,14 @@ const Register = () => {
             const photoURL= res.data.data.url;
 
             const userInfo = {
-              email:data.email,
-              displayName:data.name,
-              photoURL : photoURL
+              email:data?.email,
+              displayName:data?.name,
+              photoURL : photoURL,
+              role: data?.role || "user" 
 
 
             }
+            console.log('user info to save:', userInfo);
           axiosSecure.post('/users', userInfo)
   .then(res => {
     console.log('users api response:', res.data);
@@ -80,8 +83,12 @@ const Register = () => {
         .catch(error=>{
           console.log(error)
         })
-
+     
     }
+    if (loading) return <div>Loading...</div>;
+
+
+
     return (
        <div>
         <form onSubmit={handleSubmit(handleRegistration)}>
@@ -109,8 +116,22 @@ const Register = () => {
                    
                     {errors.email?.type==='required'&&<p className='text-amber-500'>Name is required.</p>}
                        
+                 {/* Role */}
 
-                     {/* Roll */}
+                <label className="label">Role</label>
+                <select
+                {...register('role', { required: true })}
+                className="select select-bordered"
+                defaultValue="user"
+                >
+                <option value="user">User</option>
+              <option value="manager">Manager</option>
+             </select>
+
+           {errors.role && (
+         <p className="text-amber-500">Role is required.</p>
+            )}
+
 
 
                    
