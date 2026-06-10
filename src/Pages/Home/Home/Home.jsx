@@ -4,7 +4,7 @@ import Services from "../../../Components/Services/Services";
 import Brands from "../Brands/Brands";
 import Reviews from "./Reviews/Reviews";
 import Products from "../../../Components/Products/Products";
-
+import { Link } from "react-router-dom";
 import Counter from "../../../Components/ui/Counter";
 import { FadeUp } from "../../../Components/ui/Motion";
 import TimelineItem from "../../../Components/ui/TimelineItem";
@@ -120,20 +120,22 @@ const Home = () => {
 
       {/* 10. CALL TO ACTION (FINAL SECTION) */}
       <FadeUp>
-        <section className="py-20 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to Get Started?
-          </h2>
+  <section className="py-20 text-center">
+    <h2 className="text-3xl font-bold mb-4">
+      Ready to Get Started?
+    </h2>
 
-          <p className="mb-6 text-gray-600 dark:text-gray-300">
-            Join thousands of users using our platform
-          </p>
+    <p className="mb-6 text-gray-600 dark:text-gray-300">
+      Join thousands of users using our platform
+    </p>
 
-          <button className="px-6 py-3 rounded-xl bg-[#FF62BB] text-white font-medium">
-            Get Started Now
-          </button>
-        </section>
-      </FadeUp>
+    <Link to="/Auth/Register">
+      <button className="px-6 py-3 rounded-xl bg-[#FF62BB] text-white font-medium">
+        Get Started Now
+      </button>
+    </Link>
+  </section>
+</FadeUp>
 
     </div>
   );

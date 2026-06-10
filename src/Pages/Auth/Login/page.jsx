@@ -5,7 +5,7 @@ import UseAuth from '../../../Components/Hooks/useAuth';
 import { Link, Navigate } from 'react-router';
 import SocialLogin from '../SocialLogin/SocialLogin';
 import { useLocation } from 'react-router';
-;
+
 
 
 
