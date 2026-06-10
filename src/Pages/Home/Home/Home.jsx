@@ -8,11 +8,16 @@ import Products from "../../../Components/Products/Products";
 import Counter from "../../../Components/ui/Counter";
 import { FadeUp } from "../../../Components/ui/Motion";
 import TimelineItem from "../../../Components/ui/TimelineItem";
-import WhyChooseUs from "../../../Components/WhyChooseUs/WhyChooseUs";
+import { useState } from "react";
+import StatsSection from "../../../Components/Stats/StatsSection";
+import HowItWorks from "../../../Components/HowItWorks/HowItWorks";
+
+
 
 const reviewsPromise = fetch("/Public.json").then((res) => res.json());
 
 const Home = () => {
+    const [selectedBrand, setSelectedBrand] = useState("all");
   return (
     <div className="w-full">
 
@@ -23,18 +28,15 @@ const Home = () => {
 
       {/* 2. STATS / COUNTERS */}
       <FadeUp>
-        <section className="py-16 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          <Counter end={120} label="Products" color="#FF62BB" />
-          <Counter end={50} label="Services" color="#B331F1" />
-          <Counter end={1000} label="Users" color="#FF97D0" />
-          <Counter end={24} label="Support Hours" color="#FF62BB" />
-        </section>
+        
+         <StatsSection></StatsSection>
+        
       </FadeUp>
 
       {/* 3. FEATURES SECTION (NEW) */}
       <FadeUp>
   <section className="py-16 text-center px-4">
-    <WhyChooseUs />
+    
   </section>
 </FadeUp>
 
@@ -46,44 +48,48 @@ const Home = () => {
       </FadeUp>
 
       {/* 5. HOW IT WORKS (NEW) */}
-     <FadeUp>
-  <section className="py-16 text-center">
-    <h2 className="text-2xl font-bold mb-10">How It Works</h2>
-
-    <div className="relative border-l-2 border-gray-300 dark:border-gray-600 ml-6">
-
-      <TimelineItem
-        title="Choose Product"
-        desc="Select your desired product from our catalog"
-      />
-
-      <TimelineItem
-        title="Place Order"
-        desc="Confirm your order with secure checkout"
-      />
-
-      <TimelineItem
-        title="Get Delivery"
-        desc="Receive your product at your doorstep"
-      />
-
-    </div>
-  </section>
-</FadeUp>
+   
+   <HowItWorks></HowItWorks>
+  
+   
 
       {/* 6. PRODUCTS */}
       <FadeUp>
         <section className="py-12">
-          <Products />
+          <Products onSelectBrand={setSelectedBrand} />
         </section>
       </FadeUp>
 
-      {/* 7. BRANDS */}
-      <FadeUp>
-        <section className="py-12">
-          <Brands />
-        </section>
-      </FadeUp>
+    {/* 7. BRANDS */}
+<FadeUp>
+  <section className="py-16 px-4 relative overflow-hidden">
+
+    {/* BACKGROUND GLOW (ONLY YOUR COLORS) */}
+    <div className="absolute inset-0">
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-[#FF62BB]/20 blur-3xl rounded-full"></div>
+      <div className="absolute bottom-0 right-1/4 w-72 h-72 bg-[#B331F1]/20 blur-3xl rounded-full"></div>
+    </div>
+
+    {/* MAIN CARD */}
+    <div className="relative max-w-6xl mx-auto bg-white/70 dark:bg-[#0F172A]/40 backdrop-blur-xl border border-[#FF97D0]/30 rounded-3xl shadow-xl p-8">
+
+      {/* TITLE */}
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-[#0F172A] dark:text-white">
+          Explore Our Brands
+        </h2>
+
+        <p className="text-gray-600 dark:text-gray-300 mt-2">
+          Choose your favorite brand and discover premium products
+        </p>
+      </div>
+
+      {/* BRANDS */}
+      <Brands onSelectBrand={setSelectedBrand} />
+
+    </div>
+  </section>
+</FadeUp>
 
       {/* 8. TESTIMONIALS */}
       <FadeUp>
