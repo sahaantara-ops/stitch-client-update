@@ -1,23 +1,43 @@
+:root {
+  /* 🎨 PRIMARY COLORS (MAX 3) */
+  --color-primary: #FF62BB;     /* main actions */
+  --color-secondary: #B331F1;   /* highlights */
+  --color-accent: #FF97D0;      /* soft UI elements */
+
+  /* 🧼 NEUTRAL (required allowed extra) */
+  --color-bg: #FFF7FB;          /* light mode background */
+  --color-surface: #ffffff;     /* cards */
+
+  /* 📝 TEXT */
+  --color-text: #1f1f1f;
+}
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
 }
 
+/* LOGO */
 .logo {
   height: 6em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em var(--color-primary));
 }
 
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em var(--color-secondary));
+}
+
+/* ANIMATION */
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -27,16 +47,28 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0f0f14;
+    --color-surface: #1a1a22;
+    --color-text: #f5f5f5;
+
+    /* keep same brand colors (important for consistency) */
+    --color-primary: #FF62BB;
+    --color-secondary: #B331F1;
+    --color-accent: #FF97D0;
   }
 }
 
+/* CARD SYSTEM */
 .card {
   padding: 2em;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* TEXT */
 .read-the-docs {
-  color: #888;
+  color: #555;
 }

@@ -1,68 +1,132 @@
-import React from 'react';
-import Logo from '../../../Components/Logo/Logo';
-import { Link, NavLink } from 'react-router';
-import useAuth from '../../../Components/Hooks/useAuth';
-
-
+import React from "react";
+import Logo from "../../../Components/Logo/Logo";
+import { Link, NavLink } from "react-router";
+import useAuth from "../../../Components/Hooks/useAuth";
 
 const Navbar = () => {
- const { logOut, user, loading } = useAuth() || {};
+  const { logOut, user } = useAuth() || {};
 
+  const handleLogout = () => {
+    logOut?.()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
 
-  const handleLogout  = () =>{
-    logOut()
-    .then()
-    .catch(error =>{
-      console.log(error)
-    })
-  }
-  console.log("Navbar user:", user);
-console.log("Navbar loading:", loading);
+  const linkClass =
+    "text-sm font-medium px-3 py-2 rounded-xl transition-all duration-200 " +
+    "text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800";
 
-  const Links= <>
-        <li><NavLink to=''>Products</NavLink></li>
-        <li><NavLink to="/servicesection">Services</NavLink></li>
-        <li><NavLink to="/neworder">New Order</NavLink></li>
-        <li><NavLink to="/Products">AllProducts</NavLink></li>
-        <li><NavLink to="/dashboard">Dashboard</NavLink></li>
+  const activeClass =
+    "bg-blue-600 text-white dark:bg-blue-500";
 
-  
-  </>
-    return (
-        <div className="navbar bg-base-100 margin shadow-sm">
-  <div className="navbar-start">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+  const Links = (
+    <>
+      <li>
+        <NavLink to="" className={({ isActive }) =>
+          `${linkClass} ${isActive ? activeClass : ""}`
+        }>
+          Products
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/servicesection" className={({ isActive }) =>
+          `${linkClass} ${isActive ? activeClass : ""}`
+        }>
+          Services
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/neworder" className={({ isActive }) =>
+          `${linkClass} ${isActive ? activeClass : ""}`
+        }>
+          New Order
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/Products" className={({ isActive }) =>
+          `${linkClass} ${isActive ? activeClass : ""}`
+        }>
+          All Products
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink to="/dashboard" className={({ isActive }) =>
+          `${linkClass} ${isActive ? activeClass : ""}`
+        }>
+          Dashboard
+        </NavLink>
+      </li>
+    </>
+  );
+
+  return (
+    <div className="navbar bg-white dark:bg-gray-900 shadow-md px-4 md:px-8">
+      
+      {/* LEFT */}
+      <div className="navbar-start">
+        <div className="dropdown">
+          <button
+            tabIndex={0}
+            className="btn btn-ghost lg:hidden rounded-xl"
+          >
+            ☰
+          </button>
+
+          <ul className="menu menu-sm dropdown-content bg-white dark:bg-gray-900 rounded-xl mt-3 w-52 p-2 shadow-lg">
+            {Links}
+          </ul>
+        </div>
+
+        <Logo />
       </div>
-      <ul
-        tabIndex="-1"
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-       {
-        Links
-       }
-      </ul>
+
+      {/* CENTER */}
+      <div className="navbar-center hidden lg:flex">
+        <ul className="menu menu-horizontal gap-2">
+          {Links}
+        </ul>
+      </div>
+
+      {/* RIGHT */}
+      <div className="navbar-end flex items-center gap-3">
+
+        {user ? (
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 rounded-xl bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition"
+          >
+            Logout
+          </button>
+        ) : (
+          <Link
+            to="/login"
+            className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-medium hover:bg-blue-700 transition"
+          >
+            Login
+          </Link>
+        )}
+
+        {/* USER INFO */}
+        {user?.photoURL && (
+          <img
+            className="w-10 h-10 rounded-xl border border-gray-200 dark:border-gray-700"
+            src={user.photoURL}
+            alt="user"
+          />
+        )}
+
+        <div className="hidden md:block">
+          <p className="text-sm font-semibold text-gray-800 dark:text-gray-100">
+            {user?.displayName}
+          </p>
+        </div>
+      </div>
     </div>
-    <Logo></Logo>
-  </div>
-  <div className="navbar-center hidden lg:flex">
-    <ul className="menu menu-horizontal px-1">
-      {Links}
-    </ul>
-  </div>
-  <div className="navbar-end">
-   {
-    user ?
-    <a onClick={handleLogout} className='btn'>Logout</a>
-    :<Link className='btn' to="/login">Login</Link>
-   }
-   <img className='w-10 h-10 rounded-full ml-4' src={user?.photoURL} alt="" />
-   <div className='ml-2'>
-    <p>{user?.displayName}</p>
-  </div>
-</div>
-    </div>
-    );
+  );
 };
 
 export default Navbar;
